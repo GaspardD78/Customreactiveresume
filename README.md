@@ -4,13 +4,6 @@
 
   <p>A free, open-source resume builder. Create, update, and share your resume easily.</p>
 
-  <p>
-    <a href="https://rxresu.me"><strong>Try it online</strong></a>
-    ·
-    <a href="https://docs.rxresu.me"><strong>Documentation</strong></a>
-    ·
-    <a href="https://discord.gg/EE8yFqW4"><strong>Discord</strong></a>
-  </p>
 </div>
 
 ---
