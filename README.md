@@ -1,19 +1,9 @@
 <div align="center">
-  <a href="https://rxresu.me">
-    <img src="public/opengraph/banner.jpg" alt="Reactive Resume" />
-  </a>
 
-  <h1>Reactive Resume</h1>
+  <h1>Custom Reactive Resume</h1>
 
   <p>Un créateur de CV gratuit et open-source. Créez, modifiez et partagez votre CV facilement.</p>
 
-  <p>
-    <a href="https://rxresu.me"><strong>Essayer en ligne</strong></a>
-    ·
-    <a href="https://docs.rxresu.me"><strong>Documentation</strong></a>
-    ·
-    <a href="https://discord.gg/EE8yFqW4"><strong>Discord</strong></a>
-  </p>
 </div>
 
 ---
