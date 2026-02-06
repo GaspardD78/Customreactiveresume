@@ -25,14 +25,14 @@ ALTER TABLE "user" ALTER COLUMN "updated_at" SET DATA TYPE timestamp with time z
 ALTER TABLE "verification" ALTER COLUMN "expires_at" SET DATA TYPE timestamp with time zone USING "expires_at"::timestamp with time zone;--> statement-breakpoint
 ALTER TABLE "verification" ALTER COLUMN "created_at" SET DATA TYPE timestamp with time zone USING "created_at"::timestamp with time zone;--> statement-breakpoint
 ALTER TABLE "verification" ALTER COLUMN "updated_at" SET DATA TYPE timestamp with time zone USING "updated_at"::timestamp with time zone;--> statement-breakpoint
-CREATE INDEX "apikey_user_id_index" ON "apikey" ("user_id");--> statement-breakpoint
-CREATE INDEX "apikey_key_index" ON "apikey" ("key");--> statement-breakpoint
-CREATE INDEX "apikey_enabled_user_id_index" ON "apikey" ("enabled","user_id");--> statement-breakpoint
-CREATE INDEX "resume_user_id_index" ON "resume" ("user_id");--> statement-breakpoint
-CREATE INDEX "resume_user_id_updated_at_index" ON "resume" ("user_id","updated_at" DESC NULLS LAST);--> statement-breakpoint
-CREATE INDEX "resume_statistics_resume_id_index" ON "resume_statistics" ("resume_id");--> statement-breakpoint
-CREATE INDEX "session_expires_at_index" ON "session" ("expires_at");--> statement-breakpoint
-CREATE INDEX "two_factor_secret_index" ON "two_factor" ("secret");--> statement-breakpoint
-CREATE INDEX "user_email_index" ON "user" ("email");--> statement-breakpoint
-CREATE INDEX "user_username_index" ON "user" ("username");--> statement-breakpoint
-CREATE INDEX "verification_identifier_index" ON "verification" ("identifier");
+CREATE INDEX IF NOT EXISTS "apikey_user_id_index" ON "apikey" ("user_id");--> statement-breakpoint
+CREATE INDEX IF NOT EXISTS "apikey_key_index" ON "apikey" ("key");--> statement-breakpoint
+CREATE INDEX IF NOT EXISTS "apikey_enabled_user_id_index" ON "apikey" ("enabled","user_id");--> statement-breakpoint
+CREATE INDEX IF NOT EXISTS "resume_user_id_index" ON "resume" ("user_id");--> statement-breakpoint
+CREATE INDEX IF NOT EXISTS "resume_user_id_updated_at_index" ON "resume" ("user_id","updated_at" DESC NULLS LAST);--> statement-breakpoint
+CREATE INDEX IF NOT EXISTS "resume_statistics_resume_id_index" ON "resume_statistics" ("resume_id");--> statement-breakpoint
+CREATE INDEX IF NOT EXISTS "session_expires_at_index" ON "session" ("expires_at");--> statement-breakpoint
+CREATE INDEX IF NOT EXISTS "two_factor_secret_index" ON "two_factor" ("secret");--> statement-breakpoint
+CREATE INDEX IF NOT EXISTS "user_email_index" ON "user" ("email");--> statement-breakpoint
+CREATE INDEX IF NOT EXISTS "user_username_index" ON "user" ("username");--> statement-breakpoint
+CREATE INDEX IF NOT EXISTS "verification_identifier_index" ON "verification" ("identifier");

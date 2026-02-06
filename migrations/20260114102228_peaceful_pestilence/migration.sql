@@ -1,4 +1,4 @@
-CREATE TABLE "account" (
+CREATE TABLE IF NOT EXISTS "account" (
 	"id" uuid PRIMARY KEY,
 	"account_id" text NOT NULL,
 	"provider_id" text DEFAULT 'credential' NOT NULL,
@@ -14,7 +14,7 @@ CREATE TABLE "account" (
 	"updated_at" timestamp DEFAULT now() NOT NULL
 );
 --> statement-breakpoint
-CREATE TABLE "apikey" (
+CREATE TABLE IF NOT EXISTS "apikey" (
 	"id" uuid PRIMARY KEY,
 	"name" text,
 	"start" text,
@@ -38,7 +38,7 @@ CREATE TABLE "apikey" (
 	"metadata" jsonb
 );
 --> statement-breakpoint
-CREATE TABLE "passkey" (
+CREATE TABLE IF NOT EXISTS "passkey" (
 	"id" uuid PRIMARY KEY,
 	"name" text,
 	"aaguid" text,
@@ -53,7 +53,7 @@ CREATE TABLE "passkey" (
 	"updated_at" timestamp DEFAULT now() NOT NULL
 );
 --> statement-breakpoint
-CREATE TABLE "resume" (
+CREATE TABLE IF NOT EXISTS "resume" (
 	"id" uuid PRIMARY KEY,
 	"name" text NOT NULL,
 	"slug" text NOT NULL,
@@ -68,7 +68,7 @@ CREATE TABLE "resume" (
 	CONSTRAINT "resume_slug_user_id_unique" UNIQUE("slug","user_id")
 );
 --> statement-breakpoint
-CREATE TABLE "resume_statistics" (
+CREATE TABLE IF NOT EXISTS "resume_statistics" (
 	"id" uuid PRIMARY KEY,
 	"views" integer DEFAULT 0 NOT NULL,
 	"downloads" integer DEFAULT 0 NOT NULL,
@@ -79,7 +79,7 @@ CREATE TABLE "resume_statistics" (
 	"updated_at" timestamp DEFAULT now() NOT NULL
 );
 --> statement-breakpoint
-CREATE TABLE "session" (
+CREATE TABLE IF NOT EXISTS "session" (
 	"id" uuid PRIMARY KEY,
 	"token" text NOT NULL UNIQUE,
 	"ip_address" text,
@@ -90,7 +90,7 @@ CREATE TABLE "session" (
 	"updated_at" timestamp DEFAULT now() NOT NULL
 );
 --> statement-breakpoint
-CREATE TABLE "two_factor" (
+CREATE TABLE IF NOT EXISTS "two_factor" (
 	"id" uuid PRIMARY KEY,
 	"user_id" uuid NOT NULL,
 	"secret" text,
@@ -99,7 +99,7 @@ CREATE TABLE "two_factor" (
 	"updated_at" timestamp DEFAULT now() NOT NULL
 );
 --> statement-breakpoint
-CREATE TABLE "user" (
+CREATE TABLE IF NOT EXISTS "user" (
 	"id" uuid PRIMARY KEY,
 	"image" text,
 	"name" text NOT NULL,
@@ -112,7 +112,7 @@ CREATE TABLE "user" (
 	"updated_at" timestamp DEFAULT now() NOT NULL
 );
 --> statement-breakpoint
-CREATE TABLE "verification" (
+CREATE TABLE IF NOT EXISTS "verification" (
 	"id" uuid PRIMARY KEY,
 	"identifier" text NOT NULL UNIQUE,
 	"value" text NOT NULL,
@@ -121,15 +121,15 @@ CREATE TABLE "verification" (
 	"updated_at" timestamp DEFAULT now() NOT NULL
 );
 --> statement-breakpoint
-CREATE INDEX "account_user_id_index" ON "account" ("user_id");--> statement-breakpoint
-CREATE INDEX "passkey_user_id_index" ON "passkey" ("user_id");--> statement-breakpoint
-CREATE INDEX "resume_is_public_slug_user_id_index" ON "resume" ("is_public","slug","user_id");--> statement-breakpoint
-CREATE INDEX "session_token_user_id_index" ON "session" ("token","user_id");--> statement-breakpoint
-CREATE INDEX "two_factor_user_id_index" ON "two_factor" ("user_id");--> statement-breakpoint
-ALTER TABLE "account" ADD CONSTRAINT "account_user_id_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "user"("id") ON DELETE CASCADE;--> statement-breakpoint
-ALTER TABLE "apikey" ADD CONSTRAINT "apikey_user_id_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "user"("id") ON DELETE CASCADE;--> statement-breakpoint
-ALTER TABLE "passkey" ADD CONSTRAINT "passkey_user_id_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "user"("id") ON DELETE CASCADE;--> statement-breakpoint
-ALTER TABLE "resume" ADD CONSTRAINT "resume_user_id_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "user"("id") ON DELETE CASCADE;--> statement-breakpoint
-ALTER TABLE "resume_statistics" ADD CONSTRAINT "resume_statistics_resume_id_resume_id_fkey" FOREIGN KEY ("resume_id") REFERENCES "resume"("id") ON DELETE CASCADE;--> statement-breakpoint
-ALTER TABLE "session" ADD CONSTRAINT "session_user_id_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "user"("id") ON DELETE CASCADE;--> statement-breakpoint
-ALTER TABLE "two_factor" ADD CONSTRAINT "two_factor_user_id_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "user"("id") ON DELETE CASCADE;
+CREATE INDEX IF NOT EXISTS "account_user_id_index" ON "account" ("user_id");--> statement-breakpoint
+CREATE INDEX IF NOT EXISTS "passkey_user_id_index" ON "passkey" ("user_id");--> statement-breakpoint
+CREATE INDEX IF NOT EXISTS "resume_is_public_slug_user_id_index" ON "resume" ("is_public","slug","user_id");--> statement-breakpoint
+CREATE INDEX IF NOT EXISTS "session_token_user_id_index" ON "session" ("token","user_id");--> statement-breakpoint
+CREATE INDEX IF NOT EXISTS "two_factor_user_id_index" ON "two_factor" ("user_id");--> statement-breakpoint
+DO $$ BEGIN ALTER TABLE "account" ADD CONSTRAINT "account_user_id_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "user"("id") ON DELETE CASCADE; EXCEPTION WHEN duplicate_object THEN NULL; END $$;--> statement-breakpoint
+DO $$ BEGIN ALTER TABLE "apikey" ADD CONSTRAINT "apikey_user_id_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "user"("id") ON DELETE CASCADE; EXCEPTION WHEN duplicate_object THEN NULL; END $$;--> statement-breakpoint
+DO $$ BEGIN ALTER TABLE "passkey" ADD CONSTRAINT "passkey_user_id_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "user"("id") ON DELETE CASCADE; EXCEPTION WHEN duplicate_object THEN NULL; END $$;--> statement-breakpoint
+DO $$ BEGIN ALTER TABLE "resume" ADD CONSTRAINT "resume_user_id_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "user"("id") ON DELETE CASCADE; EXCEPTION WHEN duplicate_object THEN NULL; END $$;--> statement-breakpoint
+DO $$ BEGIN ALTER TABLE "resume_statistics" ADD CONSTRAINT "resume_statistics_resume_id_resume_id_fkey" FOREIGN KEY ("resume_id") REFERENCES "resume"("id") ON DELETE CASCADE; EXCEPTION WHEN duplicate_object THEN NULL; END $$;--> statement-breakpoint
+DO $$ BEGIN ALTER TABLE "session" ADD CONSTRAINT "session_user_id_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "user"("id") ON DELETE CASCADE; EXCEPTION WHEN duplicate_object THEN NULL; END $$;--> statement-breakpoint
+DO $$ BEGIN ALTER TABLE "two_factor" ADD CONSTRAINT "two_factor_user_id_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "user"("id") ON DELETE CASCADE; EXCEPTION WHEN duplicate_object THEN NULL; END $$;
