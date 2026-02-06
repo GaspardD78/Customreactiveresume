@@ -1,9 +1,6 @@
 <div align="center">
-  <a href="https://rxresu.me">
-    <img src="public/opengraph/banner.jpg" alt="Reactive Resume" />
-  </a>
 
-  <h1>Reactive Resume</h1>
+  <h1>Custom Reactive Resume</h1>
 
   <p>A free, open-source resume builder. Create, update, and share your resume easily.</p>
 
