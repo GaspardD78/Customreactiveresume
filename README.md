@@ -5,10 +5,10 @@
 
   <h1>Reactive Resume</h1>
 
-  <p>A free, open-source resume builder. Create, update, and share your resume easily.</p>
+  <p>Un créateur de CV gratuit et open-source. Créez, modifiez et partagez votre CV facilement.</p>
 
   <p>
-    <a href="https://rxresu.me"><strong>Try it online</strong></a>
+    <a href="https://rxresu.me"><strong>Essayer en ligne</strong></a>
     ·
     <a href="https://docs.rxresu.me"><strong>Documentation</strong></a>
     ·
@@ -18,15 +18,15 @@
 
 ---
 
-## What is Reactive Resume?
+## Qu'est-ce que Reactive Resume ?
 
-Reactive Resume lets you build professional resumes with a real-time preview. Pick a template, fill in your details, export to PDF. No account required for basic use.
+Reactive Resume vous permet de créer des CV professionnels avec un aperçu en temps réel. Choisissez un modèle, remplissez vos informations, exportez en PDF. Aucun compte requis pour une utilisation basique.
 
-**Key features:** multiple templates, drag-and-drop sections, PDF/JSON export, AI-powered resume import, dark mode, multi-language support, self-hosting.
+**Fonctionnalités clés :** plusieurs modèles, sections par glisser-déposer, export PDF/JSON, import de CV assisté par IA, mode sombre, support multilingue, auto-hébergement.
 
-Privacy-first: open-source (MIT), no tracking, no ads, your data stays yours.
+Respect de la vie privée : open-source (MIT), aucun tracking, aucune publicité, vos données restent les vôtres.
 
-## Templates
+## Modèles
 
 <table>
   <tr>
@@ -93,92 +93,92 @@ Privacy-first: open-source (MIT), no tracking, no ads, your data stays yours.
 
 ---
 
-## Installation on Windows (step by step)
+## Installation sur Windows (pas à pas)
 
-This guide is for **Windows 10 or 11**. No prior technical knowledge is needed. Follow each step in order.
+Ce guide est pour **Windows 10 ou 11**. Aucune connaissance technique préalable n'est nécessaire. Suivez chaque étape dans l'ordre.
 
-### Step 1 — Install Git
+### Étape 1 — Installer Git
 
-Git is a tool that downloads the project code.
+Git est un outil qui permet de télécharger le code du projet.
 
-1. Go to [git-scm.com/download/win](https://git-scm.com/download/win)
-2. Click **"Click here to download"** — the installer downloads automatically
-3. Run the installer (`.exe` file)
-4. Click **Next** on every screen — the default options are fine
-5. Click **Install**, then **Finish**
+1. Allez sur [git-scm.com/download/win](https://git-scm.com/download/win)
+2. Cliquez sur **"Click here to download"** — l'installateur se télécharge automatiquement
+3. Lancez l'installateur (fichier `.exe`)
+4. Cliquez sur **Next** à chaque écran — les options par défaut conviennent
+5. Cliquez sur **Install**, puis **Finish**
 
-**Check it works:** open the **Start menu**, type `cmd`, open **Command Prompt**, and type:
+**Vérification :** ouvrez le **menu Démarrer**, tapez `cmd`, ouvrez l'**Invite de commandes**, et tapez :
 
 ```
 git --version
 ```
 
-You should see something like `git version 2.xx.x`. If so, Git is installed.
+Vous devriez voir quelque chose comme `git version 2.xx.x`. Si c'est le cas, Git est installé.
 
-### Step 2 — Install Node.js
+### Étape 2 — Installer Node.js
 
-Node.js runs the application code.
+Node.js exécute le code de l'application.
 
-1. Go to [nodejs.org](https://nodejs.org/)
-2. Download the **LTS** version (the big green button on the left)
-3. Run the installer (`.msi` file)
-4. Click **Next** on every screen — keep all defaults
-5. **Important:** on the "Tools for Native Modules" screen, check the box **"Automatically install the necessary tools"** if it appears
-6. Click **Install**, then **Finish**
+1. Allez sur [nodejs.org](https://nodejs.org/)
+2. Téléchargez la version **LTS** (le gros bouton vert à gauche)
+3. Lancez l'installateur (fichier `.msi`)
+4. Cliquez sur **Next** à chaque écran — gardez toutes les options par défaut
+5. **Important :** à l'écran "Tools for Native Modules", cochez la case **"Automatically install the necessary tools"** si elle apparaît
+6. Cliquez sur **Install**, puis **Finish**
 
-**Check it works:** close and reopen Command Prompt, then type:
+**Vérification :** fermez et rouvrez l'Invite de commandes, puis tapez :
 
 ```
 node --version
 ```
 
-You should see `v24.x.x` or higher.
+Vous devriez voir `v24.x.x` ou supérieur.
 
-### Step 3 — Enable pnpm
+### Étape 3 — Activer pnpm
 
-pnpm is the package manager used by this project. It comes bundled with Node.js, you just need to enable it.
+pnpm est le gestionnaire de paquets utilisé par ce projet. Il est fourni avec Node.js, il suffit de l'activer.
 
-Open Command Prompt and type:
+Ouvrez l'Invite de commandes et tapez :
 
 ```
 corepack enable
 corepack prepare pnpm@latest --activate
 ```
 
-**Check it works:**
+**Vérification :**
 
 ```
 pnpm --version
 ```
 
-You should see a version number like `10.x.x`.
+Vous devriez voir un numéro de version comme `10.x.x`.
 
-### Step 4 — Install Docker Desktop
+### Étape 4 — Installer Docker Desktop
 
-Docker runs the database and other services the application needs.
+Docker exécute la base de données et les autres services nécessaires à l'application.
 
-1. Go to [docker.com/products/docker-desktop](https://www.docker.com/products/docker-desktop/)
-2. Click **"Download for Windows"**
-3. Run the installer
-4. When asked, keep **"Use WSL 2 instead of Hyper-V"** checked (recommended)
-5. Click **OK**, then let it install
-6. **Restart your computer** when prompted
-7. After restart, Docker Desktop opens automatically. Accept the terms of service
-8. Wait until the bottom-left indicator in Docker Desktop shows **"Engine running"** (green icon)
+1. Allez sur [docker.com/products/docker-desktop](https://www.docker.com/products/docker-desktop/)
+2. Cliquez sur **"Download for Windows"**
+3. Lancez l'installateur
+4. Quand demandé, gardez **"Use WSL 2 instead of Hyper-V"** coché (recommandé)
+5. Cliquez sur **OK**, puis laissez l'installation se terminer
+6. **Redémarrez votre ordinateur** quand demandé
+7. Après le redémarrage, Docker Desktop s'ouvre automatiquement. Acceptez les conditions d'utilisation
+8. Attendez que l'indicateur en bas à gauche de Docker Desktop affiche **"Engine running"** (icône verte)
 
-> **Note:** If Docker asks you to install or update WSL 2, follow the link it gives you, install the update, then restart again.
+> **Note :** Si Docker vous demande d'installer ou mettre à jour WSL 2, suivez le lien fourni, installez la mise à jour, puis redémarrez à nouveau.
 
-**Check it works:** open Command Prompt and type:
+**Vérification :** ouvrez l'Invite de commandes et tapez :
 
 ```
 docker --version
 ```
 
-You should see `Docker version 2x.x.x`.
+Vous devriez voir `Docker version 2x.x.x`.
 
-### Step 5 — Download the project
+### Étape 5 — Télécharger le projet
 
-Open Command Prompt. Choose where you want the project folder (for example, your Documents folder):
+Ouvrez l'Invite de commandes. Choisissez où vous voulez le dossier du projet (par exemple, votre dossier Documents) :
 
 ```
 cd %USERPROFILE%\Documents
@@ -186,122 +186,123 @@ git clone https://github.com/GaspardD78/Customreactiveresume.git
 cd Customreactiveresume
 ```
 
-This creates a folder called `Customreactiveresume` with all the project files.
+Ceci crée un dossier appelé `Customreactiveresume` avec tous les fichiers du projet.
 
-### Step 6 — Configure the environment file
+### Étape 6 — Configurer le fichier d'environnement
 
-The project needs a configuration file called `.env`.
+Le projet a besoin d'un fichier de configuration appelé `.env`.
 
 ```
 copy .env.example .env
 ```
 
-That's it. The default values work for local development — no need to change anything.
+C'est tout. Les valeurs par défaut fonctionnent pour le développement local — aucune modification nécessaire.
 
-> **For advanced users:** open `.env` in a text editor (Notepad works) if you want to customize settings. For production, replace `AUTH_SECRET` with a strong random key.
+> **Pour les utilisateurs avancés :** ouvrez `.env` dans un éditeur de texte (le Bloc-notes fonctionne) si vous souhaitez personnaliser les paramètres. Pour la production, remplacez `AUTH_SECRET` par une clé aléatoire forte.
 
-### Step 7 — Start the services (database, etc.)
+### Étape 7 — Démarrer les services (base de données, etc.)
 
-Make sure **Docker Desktop is running** (check the green icon in the system tray), then type:
+Assurez-vous que **Docker Desktop est en cours d'exécution** (vérifiez l'icône verte dans la barre des tâches), puis tapez :
 
 ```
 docker compose -f compose.dev.yml up -d
 ```
 
-This downloads and starts 5 services in the background:
+Ceci télécharge et démarre 5 services en arrière-plan :
 
-| Service | What it does | Address |
-|---------|-------------|---------|
-| PostgreSQL | Database | localhost:5432 |
-| Browserless | Generates PDFs | localhost:4000 |
-| SeaweedFS | File storage | localhost:8333 |
-| Mailpit | Captures test emails | [localhost:8025](http://localhost:8025) |
-| Adminer | Database admin panel | [localhost:8080](http://localhost:8080) |
+| Service | Fonction | Adresse |
+|---------|----------|---------|
+| PostgreSQL | Base de données | localhost:5432 |
+| Browserless | Génération de PDF | localhost:4000 |
+| SeaweedFS | Stockage de fichiers | localhost:8333 |
+| Mailpit | Capture des emails de test | [localhost:8025](http://localhost:8025) |
+| Adminer | Panneau d'administration de la BDD | [localhost:8080](http://localhost:8080) |
 
-The first time, this downloads several images — wait for it to finish. Check everything is running:
+La première fois, cela télécharge plusieurs images — attendez la fin. Vérifiez que tout fonctionne :
 
 ```
 docker compose -f compose.dev.yml ps
 ```
 
-All services should show **"running"** or **"healthy"**.
+Tous les services devraient afficher **"running"** ou **"healthy"**.
 
-### Step 8 — Install project dependencies
+### Étape 8 — Installer les dépendances du projet
 
 ```
 pnpm install
 ```
 
-This downloads all the code libraries the project needs. Wait for it to finish.
+Ceci télécharge toutes les bibliothèques de code nécessaires au projet. Attendez la fin de l'opération.
 
-### Step 9 — Set up the database
+### Étape 9 — Configurer la base de données
 
 ```
 pnpm db:push
 ```
 
-This creates the database tables. You should see output ending with a success message.
+Ceci crée les tables de la base de données. Vous devriez voir une sortie se terminant par un message de succès.
 
-### Step 10 — Start the application
+### Étape 10 — Démarrer l'application
 
 ```
 pnpm dev
 ```
 
-Wait until you see a message indicating the server is ready on port 3000, then open your browser and go to:
+Attendez de voir un message indiquant que le serveur est prêt sur le port 3000, puis ouvrez votre navigateur et allez sur :
 
 **http://localhost:3000**
 
-You should see the Reactive Resume homepage. Click **Sign Up** to create your account.
+Vous devriez voir la page d'accueil de Reactive Resume. Cliquez sur **Sign Up** pour créer votre compte.
 
-> **Tip:** Test emails (for account verification) are captured by Mailpit. Open [http://localhost:8025](http://localhost:8025) to see them.
+> **Astuce :** Les emails de test (pour la vérification du compte) sont capturés par Mailpit. Ouvrez [http://localhost:8025](http://localhost:8025) pour les consulter.
 
-### Stopping and restarting
+### Arrêt et redémarrage
 
-**To stop the application:** press `Ctrl + C` in the Command Prompt where `pnpm dev` is running.
+**Pour arrêter l'application :** appuyez sur `Ctrl + C` dans l'Invite de commandes où `pnpm dev` est en cours d'exécution.
 
-**To stop the background services:**
+**Pour arrêter les services en arrière-plan :**
 
 ```
 docker compose -f compose.dev.yml down
 ```
 
-**To restart everything later:**
+**Pour tout redémarrer plus tard :**
 
-1. Open Docker Desktop (wait for the green icon)
-2. Open Command Prompt
-3. Navigate to the project folder: `cd %USERPROFILE%\Documents\Customreactiveresume`
-4. Start services: `docker compose -f compose.dev.yml up -d`
-5. Start the app: `pnpm dev`
-6. Open http://localhost:3000
+1. Ouvrez Docker Desktop (attendez l'icône verte)
+2. Ouvrez l'Invite de commandes
+3. Naviguez vers le dossier du projet : `cd %USERPROFILE%\Documents\Customreactiveresume`
+4. Démarrez les services : `docker compose -f compose.dev.yml up -d`
+5. Démarrez l'application : `pnpm dev`
+6. Ouvrez http://localhost:3000
 
-### Troubleshooting
+### Dépannage
 
-| Problem | Solution |
-|---------|----------|
-| `docker` command not found | Make sure Docker Desktop is running. Restart Command Prompt. |
-| `pnpm` command not found | Run `corepack enable` again. Restart Command Prompt. |
-| `node` command not found | Reinstall Node.js from [nodejs.org](https://nodejs.org/). Restart Command Prompt. |
-| Port already in use | Another program is using that port. Stop it, or change the port in `.env`. |
-| Docker services won't start | Check Docker Desktop is running (green icon). Try `docker compose -f compose.dev.yml down` then `up -d` again. |
-| `pnpm dev` shows errors | Make sure Step 7, 8, and 9 completed without errors. Try `pnpm install` again. |
-| Can't access localhost:3000 | Wait for the dev server to fully start. Check the terminal for error messages. |
+| Problème | Solution |
+|----------|----------|
+| Commande `docker` introuvable | Assurez-vous que Docker Desktop est en cours d'exécution. Redémarrez l'Invite de commandes. |
+| Commande `pnpm` introuvable | Relancez `corepack enable`. Redémarrez l'Invite de commandes. |
+| Commande `node` introuvable | Réinstallez Node.js depuis [nodejs.org](https://nodejs.org/). Redémarrez l'Invite de commandes. |
+| Port déjà utilisé | Un autre programme utilise ce port. Arrêtez-le, ou changez le port dans `.env`. |
+| Les services Docker ne démarrent pas | Vérifiez que Docker Desktop est en cours d'exécution (icône verte). Essayez `docker compose -f compose.dev.yml down` puis `up -d` à nouveau. |
+| `pnpm dev` affiche des erreurs | Assurez-vous que les étapes 7, 8 et 9 se sont terminées sans erreurs. Réessayez `pnpm install`. |
+| Impossible d'accéder à localhost:3000 | Attendez que le serveur de développement ait complètement démarré. Vérifiez les messages d'erreur dans le terminal. |
+| Erreur de migration « relation already exists » | Les migrations sont idempotentes (`IF NOT EXISTS`). Si l'erreur persiste, exécutez `pnpm db:push` pour synchroniser le schéma directement. |
 
 ---
 
-## Installation on macOS / Linux
+## Installation sur macOS / Linux
 
 <details>
-<summary>Click to expand</summary>
+<summary>Cliquez pour développer</summary>
 
-### Prerequisites
+### Prérequis
 
 - **Node.js** 24+ — [nodejs.org](https://nodejs.org/)
 - **pnpm** — `corepack enable && corepack prepare pnpm@latest --activate`
 - **Docker** & Docker Compose — [docs.docker.com/get-docker](https://docs.docker.com/get-docker/)
 - **Git** — [git-scm.com](https://git-scm.com/)
 
-### Quick start
+### Démarrage rapide
 
 ```bash
 git clone https://github.com/GaspardD78/Customreactiveresume.git
@@ -313,78 +314,78 @@ pnpm db:push
 pnpm dev
 ```
 
-Open http://localhost:3000.
+Ouvrez http://localhost:3000.
 
 </details>
 
 ---
 
-## AI Integration (optional)
+## Intégration IA (optionnel)
 
-Reactive Resume can use AI to parse PDF/Word resumes into structured data. Two options:
+Reactive Resume peut utiliser l'IA pour analyser des CV PDF/Word et les convertir en données structurées. Deux options :
 
-### Option A — Groq (cloud, free tier)
+### Option A — Groq (cloud, offre gratuite)
 
-1. Create an account at [console.groq.com](https://console.groq.com)
-2. Go to **API Keys** > **Create API Key** > copy it
-3. In the app: **Dashboard > Settings > AI**
-4. Provider: **Groq**, Model: `llama-3.3-70b-versatile`, paste your API key
-5. Click **Test Connection**, then enable AI features
+1. Créez un compte sur [console.groq.com](https://console.groq.com)
+2. Allez dans **API Keys** > **Create API Key** > copiez la clé
+3. Dans l'application : **Dashboard > Settings > AI**
+4. Fournisseur : **Groq**, Modèle : `llama-3.3-70b-versatile`, collez votre clé API
+5. Cliquez sur **Test Connection**, puis activez les fonctionnalités IA
 
-Recommended models: `llama-3.3-70b-versatile` (best quality), `llama-3.1-8b-instant` (faster).
+Modèles recommandés : `llama-3.3-70b-versatile` (meilleure qualité), `llama-3.1-8b-instant` (plus rapide).
 
-> Your API key stays in your browser. It is never sent to Reactive Resume servers.
+> Votre clé API reste dans votre navigateur. Elle n'est jamais envoyée aux serveurs de Reactive Resume.
 
-### Option B — Ollama (local, fully private)
+### Option B — Ollama (local, entièrement privé)
 
-1. Download Ollama from [ollama.ai/download](https://ollama.ai/download) and install it
-2. Open Command Prompt and run:
+1. Téléchargez Ollama depuis [ollama.ai/download](https://ollama.ai/download) et installez-le
+2. Ouvrez l'Invite de commandes et exécutez :
    ```
    ollama pull llama3.2
    ```
-3. In the app: **Dashboard > Settings > AI**
-4. Provider: **Ollama (Local)**, Model: `llama3.2`
-5. Click **Test Connection**, then enable AI features
+3. Dans l'application : **Dashboard > Settings > AI**
+4. Fournisseur : **Ollama (Local)**, Modèle : `llama3.2`
+5. Cliquez sur **Test Connection**, puis activez les fonctionnalités IA
 
-Models: `llama3.2:1b` (~2 GB RAM), `llama3.2` (~4 GB), `llama3.1` (~8 GB, best quality).
+Modèles : `llama3.2:1b` (~2 Go RAM), `llama3.2` (~4 Go), `llama3.1` (~8 Go, meilleure qualité).
 
 ---
 
-## Development Commands
+## Commandes de développement
 
 ```bash
-pnpm dev              # Start dev server (port 3000)
-pnpm build            # Build for production
-pnpm start            # Start production server
-pnpm lint             # Lint with Biome
-pnpm typecheck        # TypeScript type checking
-pnpm db:push          # Push schema changes
-pnpm db:generate      # Generate migration files
-pnpm db:migrate       # Run migrations
-pnpm db:studio        # Open Drizzle Studio
-pnpm lingui:extract   # Extract i18n strings
+pnpm dev              # Démarrer le serveur de développement (port 3000)
+pnpm build            # Compiler pour la production
+pnpm start            # Démarrer le serveur de production
+pnpm lint             # Linter avec Biome
+pnpm typecheck        # Vérification des types TypeScript
+pnpm db:push          # Pousser les changements de schéma
+pnpm db:generate      # Générer les fichiers de migration
+pnpm db:migrate       # Exécuter les migrations
+pnpm db:studio        # Ouvrir Drizzle Studio
+pnpm lingui:extract   # Extraire les chaînes i18n
 ```
 
-## Self-Hosting with Docker
+## Auto-hébergement avec Docker
 
 ```bash
 git clone https://github.com/GaspardD78/Customreactiveresume.git
 cd Customreactiveresume
 cp .env.example .env
-# Edit .env with production values (real AUTH_SECRET, proper URLs)
+# Modifiez .env avec les valeurs de production (vrai AUTH_SECRET, URLs appropriées)
 docker compose up -d
 ```
 
-Access at http://localhost:3000.
+Accessible sur http://localhost:3000.
 
-## Contributing
+## Contribuer
 
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/my-feature`)
-3. Commit your changes (`git commit -m 'Add my feature'`)
-4. Push to the branch (`git push origin feature/my-feature`)
-5. Open a Pull Request
+1. Forkez le dépôt
+2. Créez une branche de fonctionnalité (`git checkout -b feature/ma-fonctionnalite`)
+3. Committez vos changements (`git commit -m 'Ajout de ma fonctionnalité'`)
+4. Poussez vers la branche (`git push origin feature/ma-fonctionnalite`)
+5. Ouvrez une Pull Request
 
-## License
+## Licence
 
 [MIT](./LICENSE)
