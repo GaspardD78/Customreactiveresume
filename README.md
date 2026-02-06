@@ -5,64 +5,26 @@
 
   <h1>Reactive Resume</h1>
 
-  <p>Reactive Resume is a free and open-source resume builder that simplifies the process of creating, updating, and sharing your resume.</p>
+  <p>A free, open-source resume builder. Create, update, and share your resume easily.</p>
 
   <p>
-    <a href="https://rxresu.me"><strong>Get Started</strong></a>
+    <a href="https://rxresu.me"><strong>Try it online</strong></a>
     ·
-    <a href="https://docs.rxresu.me"><strong>Learn More</strong></a>
-  </p>
-
-  <p>
-    <img src="https://img.shields.io/github/package-json/v/amruthpillai/reactive-resume?style=flat-square" alt="Reactive Resume version">
-    <img src="https://img.shields.io/github/stars/amruthpillai/Reactive-Resume?style=flat-square" alt="GitHub Stars">
-    <img src="https://img.shields.io/github/license/amruthpillai/Reactive-Resume?style=flat-square" alt="License" />
-    <img src="https://img.shields.io/docker/pulls/amruthpillai/reactive-resume?style=flat-square" alt="Docker Pulls" />
-    <a href="https://discord.gg/EE8yFqW4"><img src="https://img.shields.io/discord/1173518977851473940?style=flat-square&label=discord" alt="Discord" /></a>
-    <a href="https://crowdin.com/project/reactive-resume"><img src="https://badges.crowdin.net/reactive-resume/localized.svg?style=flat-square" alt="Crowdin" /></a>
-    <a href="https://github.com/sponsors/AmruthPillai"><img src="https://img.shields.io/github/sponsors/AmruthPillai?style=flat-square&label=sponsors" alt="Sponsors" /></a>
-    <a href="https://opencollective.com/reactive-resume"><img src="https://img.shields.io/opencollective/backers/reactive-resume?style=flat-square&label=donations" alt="Donations" /></a>
+    <a href="https://docs.rxresu.me"><strong>Documentation</strong></a>
+    ·
+    <a href="https://discord.gg/EE8yFqW4"><strong>Discord</strong></a>
   </p>
 </div>
 
 ---
 
-Reactive Resume makes building resumes straightforward. Pick a template, fill in your details, and export to PDF—no account required for basic use. For those who want more control, the entire application can be self-hosted on your own infrastructure.
+## What is Reactive Resume?
 
-Built with privacy as a core principle, Reactive Resume gives you complete ownership of your data. The codebase is fully open-source under the MIT license, with no tracking, no ads, and no hidden costs.
+Reactive Resume lets you build professional resumes with a real-time preview. Pick a template, fill in your details, export to PDF. No account required for basic use.
 
-## Features
+**Key features:** multiple templates, drag-and-drop sections, PDF/JSON export, AI-powered resume import, dark mode, multi-language support, self-hosting.
 
-**Resume Building**
-
-- Real-time preview as you type
-- Multiple export formats (PDF, JSON)
-- Drag-and-drop section ordering
-- Custom sections for any content type
-- Rich text editor with formatting support
-
-**Templates**
-
-- Professionally designed templates
-- A4 and Letter size support
-- Customizable colors, fonts, and spacing
-- Custom CSS for advanced styling
-
-**Privacy & Control**
-
-- Self-host on your own infrastructure
-- No tracking or analytics by default
-- Full data export at any time
-- Delete your data permanently with one click
-
-**Extras**
-
-- AI integration (Groq, Ollama/Llama 3.2, OpenAI, Google Gemini, Anthropic Claude)
-- Multi-language support
-- Share resumes via unique links
-- Import from JSON Resume format
-- Dark mode support
-- Passkey and two-factor authentication
+Privacy-first: open-source (MIT), no tracking, no ads, your data stays yours.
 
 ## Templates
 
@@ -129,226 +91,264 @@ Built with privacy as a core principle, Reactive Resume gives you complete owner
   </tr>
 </table>
 
-## Installation - Step by Step
+---
 
-### Prerequisites
+## Installation on Windows (step by step)
 
-| Tool | Version | Installation |
-|------|---------|-------------|
-| **Node.js** | 24+ | [nodejs.org](https://nodejs.org/) |
-| **pnpm** | 10.28+ | `corepack enable && corepack prepare pnpm@latest --activate` |
-| **Docker** & Docker Compose | Latest | [docs.docker.com](https://docs.docker.com/get-docker/) |
-| **Git** | Latest | [git-scm.com](https://git-scm.com/) |
+This guide is for **Windows 10 or 11**. No prior technical knowledge is needed. Follow each step in order.
 
-### Step 1 - Clone the Repository
+### Step 1 — Install Git
 
-```bash
+Git is a tool that downloads the project code.
+
+1. Go to [git-scm.com/download/win](https://git-scm.com/download/win)
+2. Click **"Click here to download"** — the installer downloads automatically
+3. Run the installer (`.exe` file)
+4. Click **Next** on every screen — the default options are fine
+5. Click **Install**, then **Finish**
+
+**Check it works:** open the **Start menu**, type `cmd`, open **Command Prompt**, and type:
+
+```
+git --version
+```
+
+You should see something like `git version 2.xx.x`. If so, Git is installed.
+
+### Step 2 — Install Node.js
+
+Node.js runs the application code.
+
+1. Go to [nodejs.org](https://nodejs.org/)
+2. Download the **LTS** version (the big green button on the left)
+3. Run the installer (`.msi` file)
+4. Click **Next** on every screen — keep all defaults
+5. **Important:** on the "Tools for Native Modules" screen, check the box **"Automatically install the necessary tools"** if it appears
+6. Click **Install**, then **Finish**
+
+**Check it works:** close and reopen Command Prompt, then type:
+
+```
+node --version
+```
+
+You should see `v24.x.x` or higher.
+
+### Step 3 — Enable pnpm
+
+pnpm is the package manager used by this project. It comes bundled with Node.js, you just need to enable it.
+
+Open Command Prompt and type:
+
+```
+corepack enable
+corepack prepare pnpm@latest --activate
+```
+
+**Check it works:**
+
+```
+pnpm --version
+```
+
+You should see a version number like `10.x.x`.
+
+### Step 4 — Install Docker Desktop
+
+Docker runs the database and other services the application needs.
+
+1. Go to [docker.com/products/docker-desktop](https://www.docker.com/products/docker-desktop/)
+2. Click **"Download for Windows"**
+3. Run the installer
+4. When asked, keep **"Use WSL 2 instead of Hyper-V"** checked (recommended)
+5. Click **OK**, then let it install
+6. **Restart your computer** when prompted
+7. After restart, Docker Desktop opens automatically. Accept the terms of service
+8. Wait until the bottom-left indicator in Docker Desktop shows **"Engine running"** (green icon)
+
+> **Note:** If Docker asks you to install or update WSL 2, follow the link it gives you, install the update, then restart again.
+
+**Check it works:** open Command Prompt and type:
+
+```
+docker --version
+```
+
+You should see `Docker version 2x.x.x`.
+
+### Step 5 — Download the project
+
+Open Command Prompt. Choose where you want the project folder (for example, your Documents folder):
+
+```
+cd %USERPROFILE%\Documents
 git clone https://github.com/GaspardD78/Customreactiveresume.git
 cd Customreactiveresume
 ```
 
-### Step 2 - Configure Environment Variables
+This creates a folder called `Customreactiveresume` with all the project files.
 
-```bash
-cp .env.example .env
+### Step 6 — Configure the environment file
+
+The project needs a configuration file called `.env`.
+
+```
+copy .env.example .env
 ```
 
-Open `.env` and verify these values (defaults work for local development):
+That's it. The default values work for local development — no need to change anything.
 
-```bash
-# Application URL
-APP_URL="http://localhost:3000"
+> **For advanced users:** open `.env` in a text editor (Notepad works) if you want to customize settings. For production, replace `AUTH_SECRET` with a strong random key.
 
-# PostgreSQL connection
-DATABASE_URL="postgresql://postgres:postgres@localhost:5432/postgres"
+### Step 7 — Start the services (database, etc.)
 
-# Authentication secret (generate a real one for production)
-AUTH_SECRET="change-me-to-a-secure-secret-key-in-production"
+Make sure **Docker Desktop is running** (check the green icon in the system tray), then type:
 
-# PDF Printer service
-PRINTER_ENDPOINT="ws://localhost:4000?token=1234567890"
 ```
-
-> For production, generate `AUTH_SECRET` with: `openssl rand -hex 32`
-
-### Step 3 - Start Infrastructure Services
-
-```bash
 docker compose -f compose.dev.yml up -d
 ```
 
-This starts the following services:
+This downloads and starts 5 services in the background:
 
-| Service | Port | Purpose |
-|---------|------|---------|
-| **PostgreSQL** | 5432 | Database |
-| **Browserless** | 4000 | PDF generation (headless Chromium) |
-| **SeaweedFS** | 8333 | S3-compatible file storage |
-| **Mailpit** | 1025 / 8025 | Email testing (SMTP + web UI) |
-| **Adminer** | 8080 | Database management UI |
+| Service | What it does | Address |
+|---------|-------------|---------|
+| PostgreSQL | Database | localhost:5432 |
+| Browserless | Generates PDFs | localhost:4000 |
+| SeaweedFS | File storage | localhost:8333 |
+| Mailpit | Captures test emails | [localhost:8025](http://localhost:8025) |
+| Adminer | Database admin panel | [localhost:8080](http://localhost:8080) |
 
-Verify all services are healthy:
+The first time, this downloads several images — wait for it to finish. Check everything is running:
 
-```bash
+```
 docker compose -f compose.dev.yml ps
 ```
 
-### Step 4 - Install Dependencies
+All services should show **"running"** or **"healthy"**.
 
-```bash
+### Step 8 — Install project dependencies
+
+```
 pnpm install
 ```
 
-### Step 5 - Run Database Migrations
+This downloads all the code libraries the project needs. Wait for it to finish.
 
-```bash
+### Step 9 — Set up the database
+
+```
 pnpm db:push
 ```
 
-### Step 6 - Start the Development Server
+This creates the database tables. You should see output ending with a success message.
 
-```bash
+### Step 10 — Start the application
+
+```
 pnpm dev
 ```
 
-The application is now available at **http://localhost:3000**.
+Wait until you see a message indicating the server is ready on port 3000, then open your browser and go to:
 
-### Step 7 - Create Your Account
+**http://localhost:3000**
 
-1. Open http://localhost:3000
-2. Click **Sign Up** to create a local account
-3. (Mailpit captures verification emails at http://localhost:8025)
+You should see the Reactive Resume homepage. Click **Sign Up** to create your account.
+
+> **Tip:** Test emails (for account verification) are captured by Mailpit. Open [http://localhost:8025](http://localhost:8025) to see them.
+
+### Stopping and restarting
+
+**To stop the application:** press `Ctrl + C` in the Command Prompt where `pnpm dev` is running.
+
+**To stop the background services:**
+
+```
+docker compose -f compose.dev.yml down
+```
+
+**To restart everything later:**
+
+1. Open Docker Desktop (wait for the green icon)
+2. Open Command Prompt
+3. Navigate to the project folder: `cd %USERPROFILE%\Documents\Customreactiveresume`
+4. Start services: `docker compose -f compose.dev.yml up -d`
+5. Start the app: `pnpm dev`
+6. Open http://localhost:3000
+
+### Troubleshooting
+
+| Problem | Solution |
+|---------|----------|
+| `docker` command not found | Make sure Docker Desktop is running. Restart Command Prompt. |
+| `pnpm` command not found | Run `corepack enable` again. Restart Command Prompt. |
+| `node` command not found | Reinstall Node.js from [nodejs.org](https://nodejs.org/). Restart Command Prompt. |
+| Port already in use | Another program is using that port. Stop it, or change the port in `.env`. |
+| Docker services won't start | Check Docker Desktop is running (green icon). Try `docker compose -f compose.dev.yml down` then `up -d` again. |
+| `pnpm dev` shows errors | Make sure Step 7, 8, and 9 completed without errors. Try `pnpm install` again. |
+| Can't access localhost:3000 | Wait for the dev server to fully start. Check the terminal for error messages. |
 
 ---
 
-## AI Integration - Groq API
+## Installation on macOS / Linux
 
-[Groq](https://groq.com) provides ultra-fast LLM inference. It's used here to parse PDF/DOCX resumes into structured data.
+<details>
+<summary>Click to expand</summary>
 
-### Step 1 - Get a Groq API Key
+### Prerequisites
 
-1. Go to [console.groq.com](https://console.groq.com)
-2. Sign up or log in
-3. Navigate to **API Keys** in the left sidebar
-4. Click **Create API Key** and copy it
+- **Node.js** 24+ — [nodejs.org](https://nodejs.org/)
+- **pnpm** — `corepack enable && corepack prepare pnpm@latest --activate`
+- **Docker** & Docker Compose — [docs.docker.com/get-docker](https://docs.docker.com/get-docker/)
+- **Git** — [git-scm.com](https://git-scm.com/)
 
-### Step 2 - Configure in Reactive Resume
+### Quick start
 
-1. In the app, go to **Dashboard > Settings > AI**
-2. Select **Groq** as the provider
-3. Enter a model name: `llama-3.3-70b-versatile` (recommended) or `llama-3.1-8b-instant` (faster)
-4. Paste your Groq API Key
-5. Leave Base URL empty (defaults to `https://api.groq.com/openai/v1`)
-6. Click **Test Connection** - a green checkmark should appear
-7. Toggle **Enable AI Features** to ON
+```bash
+git clone https://github.com/GaspardD78/Customreactiveresume.git
+cd Customreactiveresume
+cp .env.example .env
+docker compose -f compose.dev.yml up -d
+pnpm install
+pnpm db:push
+pnpm dev
+```
 
-### Step 3 - Use It
+Open http://localhost:3000.
 
-1. Go to **Dashboard > Resumes**
-2. Click **Import** (or the + button)
-3. Select **PDF** or **Microsoft Word** as the type
-4. Upload your resume file
-5. The AI will parse it and create a structured resume
-
-### Available Groq Models
-
-| Model | Speed | Context | Best For |
-|-------|-------|---------|----------|
-| `llama-3.3-70b-versatile` | Fast | 128k | Best quality for resume parsing |
-| `llama-3.1-8b-instant` | Ultra-fast | 128k | Quick results, lighter resumes |
-| `mixtral-8x7b-32768` | Fast | 32k | Good alternative |
-
-> Your API key is stored **locally in your browser** (localStorage). It is never sent to Reactive Resume servers - only directly to Groq's API.
+</details>
 
 ---
 
-## AI Integration - Ollama (Local / Llama 3.2)
+## AI Integration (optional)
 
-[Ollama](https://ollama.ai) lets you run LLMs locally on your machine. No API key needed, fully private.
+Reactive Resume can use AI to parse PDF/Word resumes into structured data. Two options:
 
-### Step 1 - Install Ollama
+### Option A — Groq (cloud, free tier)
 
-**macOS / Linux:**
+1. Create an account at [console.groq.com](https://console.groq.com)
+2. Go to **API Keys** > **Create API Key** > copy it
+3. In the app: **Dashboard > Settings > AI**
+4. Provider: **Groq**, Model: `llama-3.3-70b-versatile`, paste your API key
+5. Click **Test Connection**, then enable AI features
 
-```bash
-curl -fsSL https://ollama.ai/install.sh | sh
-```
+Recommended models: `llama-3.3-70b-versatile` (best quality), `llama-3.1-8b-instant` (faster).
 
-**macOS (Homebrew):**
+> Your API key stays in your browser. It is never sent to Reactive Resume servers.
 
-```bash
-brew install ollama
-```
+### Option B — Ollama (local, fully private)
 
-**Windows:**
+1. Download Ollama from [ollama.ai/download](https://ollama.ai/download) and install it
+2. Open Command Prompt and run:
+   ```
+   ollama pull llama3.2
+   ```
+3. In the app: **Dashboard > Settings > AI**
+4. Provider: **Ollama (Local)**, Model: `llama3.2`
+5. Click **Test Connection**, then enable AI features
 
-Download the installer from [ollama.ai/download](https://ollama.ai/download).
-
-### Step 2 - Start Ollama & Pull a Model
-
-```bash
-# Start the Ollama server (runs on port 11434)
-ollama serve
-
-# In a new terminal, pull Llama 3.2
-ollama pull llama3.2
-```
-
-> Available Llama 3.2 variants: `llama3.2` (3B, default), `llama3.2:1b` (1B, faster), `llama3.1` (8B, more capable)
-
-Verify the model is installed:
-
-```bash
-ollama list
-```
-
-### Step 3 - Configure in Reactive Resume
-
-1. In the app, go to **Dashboard > Settings > AI**
-2. Select **Ollama (Local)** as the provider
-3. Enter the model name: `llama3.2`
-4. No API key is needed (the field is hidden for Ollama)
-5. Leave Base URL empty (defaults to `http://localhost:11434`)
-6. Click **Test Connection** - a green checkmark should appear
-7. Toggle **Enable AI Features** to ON
-
-### Step 4 - Use It
-
-Same as Groq: **Dashboard > Resumes > Import > PDF or Word** - the file is parsed locally by your Ollama instance.
-
-### Recommended Ollama Models
-
-| Model | RAM Required | Speed | Quality |
-|-------|-------------|-------|---------|
-| `llama3.2:1b` | ~2 GB | Fastest | Basic parsing |
-| `llama3.2` (3B) | ~4 GB | Fast | Good for most resumes |
-| `llama3.1` (8B) | ~8 GB | Moderate | Best quality |
-
-### Docker + Ollama
-
-If Reactive Resume runs in Docker and Ollama runs on the host, use this Base URL instead:
-
-```
-http://host.docker.internal:11434
-```
+Models: `llama3.2:1b` (~2 GB RAM), `llama3.2` (~4 GB), `llama3.1` (~8 GB, best quality).
 
 ---
-
-## Tech Stack
-
-| Category | Technology |
-|----------|-----------|
-| Framework | TanStack Start (React 19, Vite) |
-| Runtime | Node.js |
-| Language | TypeScript |
-| Database | PostgreSQL with Drizzle ORM |
-| API | ORPC (Type-safe RPC) |
-| Auth | Better Auth |
-| Styling | Tailwind CSS 4 |
-| UI Components | Radix UI |
-| State Management | Zustand + TanStack Query |
-| AI SDK | Vercel AI SDK (ai) |
-| AI Providers | Groq, Ollama, OpenAI, Anthropic, Google Gemini, Vercel AI Gateway |
 
 ## Development Commands
 
@@ -358,58 +358,31 @@ pnpm build            # Build for production
 pnpm start            # Start production server
 pnpm lint             # Lint with Biome
 pnpm typecheck        # TypeScript type checking
+pnpm db:push          # Push schema changes
 pnpm db:generate      # Generate migration files
 pnpm db:migrate       # Run migrations
-pnpm db:push          # Push schema changes directly
 pnpm db:studio        # Open Drizzle Studio
 pnpm lingui:extract   # Extract i18n strings
 ```
 
-## Project Structure
-
-```
-src/
-  components/         # React components (resume templates, UI)
-  routes/             # File-based routing (TanStack Router)
-    dashboard/        # User dashboard & settings
-      settings/ai.tsx # AI provider configuration page
-    builder/          # Resume editor
-    auth/             # Authentication pages
-  integrations/
-    ai/               # AI store & prompts
-    orpc/
-      router/ai.ts    # AI API endpoints
-      services/ai.ts  # AI service (model factory, parsing)
-    drizzle/          # Database schema & client
-    auth/             # Better Auth config
-  schema/             # Zod validation schemas
-```
-
 ## Self-Hosting with Docker
 
-For production deployments:
-
 ```bash
-# Clone and configure
 git clone https://github.com/GaspardD78/Customreactiveresume.git
 cd Customreactiveresume
 cp .env.example .env
-# Edit .env with production values (real AUTH_SECRET, proper URLs, etc.)
-
-# Start all services
+# Edit .env with production values (real AUTH_SECRET, proper URLs)
 docker compose up -d
-
-# Access at http://localhost:3000
 ```
 
-The production stack includes PostgreSQL, Browserless (PDF printer), and SeaweedFS (file storage).
+Access at http://localhost:3000.
 
 ## Contributing
 
 1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
+2. Create a feature branch (`git checkout -b feature/my-feature`)
+3. Commit your changes (`git commit -m 'Add my feature'`)
+4. Push to the branch (`git push origin feature/my-feature`)
 5. Open a Pull Request
 
 ## License
