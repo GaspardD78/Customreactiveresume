@@ -43,6 +43,16 @@ function supportsFileInput(provider: AIProvider): boolean {
 }
 
 /**
+ * Returns true if the provider requires an API key to function.
+ * Ollama runs locally and does not need authentication.
+ */
+export function requiresApiKey(provider: AIProvider): boolean {
+	return match(provider)
+		.with("ollama", () => false)
+		.otherwise(() => true);
+}
+
+/**
  * Extract text content from a PDF file encoded in base64.
  */
 async function extractTextFromPdf(base64Data: string): Promise<string> {
@@ -66,7 +76,7 @@ function getModel(input: GetModelInput) {
 
 	return match(provider)
 		.with("openai", () => createOpenAI({ apiKey, baseURL }).languageModel(model))
-		.with("ollama", () => createOllama({ apiKey, baseURL }).languageModel(model))
+		.with("ollama", () => createOllama({ apiKey: apiKey || undefined, baseURL }).languageModel(model))
 		.with("anthropic", () => createAnthropic({ apiKey, baseURL }).languageModel(model))
 		.with("groq", () => createGroq({ apiKey, baseURL }).languageModel(model))
 		.with("vercel-ai-gateway", () => createGateway({ apiKey, baseURL }).languageModel(model))

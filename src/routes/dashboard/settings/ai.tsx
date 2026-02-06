@@ -23,42 +23,60 @@ export const Route = createFileRoute("/dashboard/settings/ai")({
 	component: RouteComponent,
 });
 
-const providerOptions: (ComboboxOption<AIProvider> & { defaultBaseURL: string })[] = [
+type ProviderOption = ComboboxOption<AIProvider> & {
+	defaultBaseURL: string;
+	modelPlaceholder: string;
+	requiresApiKey: boolean;
+};
+
+const providerOptions: ProviderOption[] = [
 	{
 		value: "openai",
 		label: "OpenAI",
 		keywords: ["openai", "gpt", "chatgpt"],
 		defaultBaseURL: "https://api.openai.com/v1",
+		modelPlaceholder: "gpt-4o, gpt-4o-mini",
+		requiresApiKey: true,
 	},
 	{
 		value: "groq",
 		label: "Groq",
 		keywords: ["groq", "llama", "mixtral", "fast"],
 		defaultBaseURL: "https://api.groq.com/openai/v1",
+		modelPlaceholder: "llama-3.3-70b-versatile, llama-3.1-8b-instant",
+		requiresApiKey: true,
 	},
 	{
 		value: "ollama",
-		label: "Ollama",
-		keywords: ["ollama", "ai", "local", "llama"],
+		label: "Ollama (Local)",
+		keywords: ["ollama", "ai", "local", "llama", "llama3"],
 		defaultBaseURL: "http://localhost:11434",
+		modelPlaceholder: "llama3.2, llama3.2:1b, llama3.1",
+		requiresApiKey: false,
 	},
 	{
 		value: "anthropic",
 		label: "Anthropic Claude",
 		keywords: ["anthropic", "claude", "ai"],
 		defaultBaseURL: "https://api.anthropic.com/v1",
+		modelPlaceholder: "claude-sonnet-4-5-20250929, claude-haiku-4-5-20251001",
+		requiresApiKey: true,
 	},
 	{
 		value: "vercel-ai-gateway",
 		label: "Vercel AI Gateway",
 		keywords: ["vercel", "gateway", "ai"],
 		defaultBaseURL: "https://ai-gateway.vercel.sh/v1/ai",
+		modelPlaceholder: "openai/gpt-4o, anthropic/claude-sonnet-4-5-20250929",
+		requiresApiKey: true,
 	},
 	{
 		value: "gemini",
 		label: "Google Gemini",
 		keywords: ["gemini", "google", "bard"],
 		defaultBaseURL: "https://generativelanguage.googleapis.com/v1beta",
+		modelPlaceholder: "gemini-2.0-flash, gemini-1.5-pro",
+		requiresApiKey: true,
 	},
 ];
 
@@ -73,8 +91,12 @@ function AIForm() {
 
 	const handleProviderChange = (value: AIProvider | null) => {
 		if (!value) return;
+		const option = providerOptions.find((o) => o.value === value);
 		set((draft) => {
 			draft.provider = value;
+			if (!option?.requiresApiKey) {
+				draft.apiKey = "";
+			}
 		});
 	};
 
@@ -116,6 +138,8 @@ function AIForm() {
 		);
 	};
 
+	const isLocalProvider = provider === "ollama";
+
 	return (
 		<div className="grid gap-6 sm:grid-cols-2">
 			<div className="flex flex-col gap-y-2">
@@ -141,22 +165,24 @@ function AIForm() {
 					value={model}
 					disabled={enabled}
 					onChange={(e) => handleModelChange(e.target.value)}
-					placeholder="e.g., gpt-4, claude-3-opus, llama-3.3-70b-versatile"
+					placeholder={selectedOption?.modelPlaceholder}
 				/>
 			</div>
 
-			<div className="flex flex-col gap-y-2 sm:col-span-2">
-				<Label htmlFor="api-key">
-					<Trans>API Key</Trans>
-				</Label>
-				<Input
-					id="api-key"
-					type="password"
-					value={apiKey}
-					disabled={enabled}
-					onChange={(e) => handleApiKeyChange(e.target.value)}
-				/>
-			</div>
+			{selectedOption?.requiresApiKey && (
+				<div className="flex flex-col gap-y-2 sm:col-span-2">
+					<Label htmlFor="api-key">
+						<Trans>API Key</Trans>
+					</Label>
+					<Input
+						id="api-key"
+						type="password"
+						value={apiKey}
+						disabled={enabled}
+						onChange={(e) => handleApiKeyChange(e.target.value)}
+					/>
+				</div>
+			)}
 
 			<div className="flex flex-col gap-y-2 sm:col-span-2">
 				<Label htmlFor="base-url">
@@ -171,6 +197,18 @@ function AIForm() {
 					onChange={(e) => handleBaseURLChange(e.target.value)}
 				/>
 			</div>
+
+			{isLocalProvider && (
+				<div className="flex items-start gap-3 rounded-sm border border-dashed bg-muted/50 p-4 sm:col-span-2">
+					<InfoIcon className="mt-0.5 shrink-0 text-muted-foreground" size={18} />
+					<div className="text-muted-foreground text-sm leading-relaxed">
+						<Trans>
+							Ollama runs locally on your machine. Make sure Ollama is running before testing the connection. To use
+							Llama 3.2, run: <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs">ollama pull llama3.2</code>
+						</Trans>
+					</div>
+				</div>
+			)}
 
 			<div>
 				<Button variant="outline" disabled={isTesting || enabled} onClick={handleTestConnection}>
