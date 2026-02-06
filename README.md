@@ -57,7 +57,7 @@ Built with privacy as a core principle, Reactive Resume gives you complete owner
 
 **Extras**
 
-- AI integration (OpenAI, Google Gemini, Anthropic Claude)
+- AI integration (Groq, Ollama/Llama 3.2, OpenAI, Google Gemini, Anthropic Claude)
 - Multi-language support
 - Share resumes via unique links
 - Import from JSON Resume format
@@ -129,103 +129,282 @@ Built with privacy as a core principle, Reactive Resume gives you complete owner
   </tr>
 </table>
 
-## Quick Start
+## Installation - Step by Step
 
-The quickest way to run Reactive Resume locally:
+### Prerequisites
+
+| Tool | Version | Installation |
+|------|---------|-------------|
+| **Node.js** | 24+ | [nodejs.org](https://nodejs.org/) |
+| **pnpm** | 10.28+ | `corepack enable && corepack prepare pnpm@latest --activate` |
+| **Docker** & Docker Compose | Latest | [docs.docker.com](https://docs.docker.com/get-docker/) |
+| **Git** | Latest | [git-scm.com](https://git-scm.com/) |
+
+### Step 1 - Clone the Repository
 
 ```bash
-# Clone the repository
-git clone https://github.com/amruthpillai/reactive-resume.git
-cd reactive-resume
+git clone https://github.com/GaspardD78/Customreactiveresume.git
+cd Customreactiveresume
+```
+
+### Step 2 - Configure Environment Variables
+
+```bash
+cp .env.example .env
+```
+
+Open `.env` and verify these values (defaults work for local development):
+
+```bash
+# Application URL
+APP_URL="http://localhost:3000"
+
+# PostgreSQL connection
+DATABASE_URL="postgresql://postgres:postgres@localhost:5432/postgres"
+
+# Authentication secret (generate a real one for production)
+AUTH_SECRET="change-me-to-a-secure-secret-key-in-production"
+
+# PDF Printer service
+PRINTER_ENDPOINT="ws://localhost:4000?token=1234567890"
+```
+
+> For production, generate `AUTH_SECRET` with: `openssl rand -hex 32`
+
+### Step 3 - Start Infrastructure Services
+
+```bash
+docker compose -f compose.dev.yml up -d
+```
+
+This starts the following services:
+
+| Service | Port | Purpose |
+|---------|------|---------|
+| **PostgreSQL** | 5432 | Database |
+| **Browserless** | 4000 | PDF generation (headless Chromium) |
+| **SeaweedFS** | 8333 | S3-compatible file storage |
+| **Mailpit** | 1025 / 8025 | Email testing (SMTP + web UI) |
+| **Adminer** | 8080 | Database management UI |
+
+Verify all services are healthy:
+
+```bash
+docker compose -f compose.dev.yml ps
+```
+
+### Step 4 - Install Dependencies
+
+```bash
+pnpm install
+```
+
+### Step 5 - Run Database Migrations
+
+```bash
+pnpm db:push
+```
+
+### Step 6 - Start the Development Server
+
+```bash
+pnpm dev
+```
+
+The application is now available at **http://localhost:3000**.
+
+### Step 7 - Create Your Account
+
+1. Open http://localhost:3000
+2. Click **Sign Up** to create a local account
+3. (Mailpit captures verification emails at http://localhost:8025)
+
+---
+
+## AI Integration - Groq API
+
+[Groq](https://groq.com) provides ultra-fast LLM inference. It's used here to parse PDF/DOCX resumes into structured data.
+
+### Step 1 - Get a Groq API Key
+
+1. Go to [console.groq.com](https://console.groq.com)
+2. Sign up or log in
+3. Navigate to **API Keys** in the left sidebar
+4. Click **Create API Key** and copy it
+
+### Step 2 - Configure in Reactive Resume
+
+1. In the app, go to **Dashboard > Settings > AI**
+2. Select **Groq** as the provider
+3. Enter a model name: `llama-3.3-70b-versatile` (recommended) or `llama-3.1-8b-instant` (faster)
+4. Paste your Groq API Key
+5. Leave Base URL empty (defaults to `https://api.groq.com/openai/v1`)
+6. Click **Test Connection** - a green checkmark should appear
+7. Toggle **Enable AI Features** to ON
+
+### Step 3 - Use It
+
+1. Go to **Dashboard > Resumes**
+2. Click **Import** (or the + button)
+3. Select **PDF** or **Microsoft Word** as the type
+4. Upload your resume file
+5. The AI will parse it and create a structured resume
+
+### Available Groq Models
+
+| Model | Speed | Context | Best For |
+|-------|-------|---------|----------|
+| `llama-3.3-70b-versatile` | Fast | 128k | Best quality for resume parsing |
+| `llama-3.1-8b-instant` | Ultra-fast | 128k | Quick results, lighter resumes |
+| `mixtral-8x7b-32768` | Fast | 32k | Good alternative |
+
+> Your API key is stored **locally in your browser** (localStorage). It is never sent to Reactive Resume servers - only directly to Groq's API.
+
+---
+
+## AI Integration - Ollama (Local / Llama 3.2)
+
+[Ollama](https://ollama.ai) lets you run LLMs locally on your machine. No API key needed, fully private.
+
+### Step 1 - Install Ollama
+
+**macOS / Linux:**
+
+```bash
+curl -fsSL https://ollama.ai/install.sh | sh
+```
+
+**macOS (Homebrew):**
+
+```bash
+brew install ollama
+```
+
+**Windows:**
+
+Download the installer from [ollama.ai/download](https://ollama.ai/download).
+
+### Step 2 - Start Ollama & Pull a Model
+
+```bash
+# Start the Ollama server (runs on port 11434)
+ollama serve
+
+# In a new terminal, pull Llama 3.2
+ollama pull llama3.2
+```
+
+> Available Llama 3.2 variants: `llama3.2` (3B, default), `llama3.2:1b` (1B, faster), `llama3.1` (8B, more capable)
+
+Verify the model is installed:
+
+```bash
+ollama list
+```
+
+### Step 3 - Configure in Reactive Resume
+
+1. In the app, go to **Dashboard > Settings > AI**
+2. Select **Ollama (Local)** as the provider
+3. Enter the model name: `llama3.2`
+4. No API key is needed (the field is hidden for Ollama)
+5. Leave Base URL empty (defaults to `http://localhost:11434`)
+6. Click **Test Connection** - a green checkmark should appear
+7. Toggle **Enable AI Features** to ON
+
+### Step 4 - Use It
+
+Same as Groq: **Dashboard > Resumes > Import > PDF or Word** - the file is parsed locally by your Ollama instance.
+
+### Recommended Ollama Models
+
+| Model | RAM Required | Speed | Quality |
+|-------|-------------|-------|---------|
+| `llama3.2:1b` | ~2 GB | Fastest | Basic parsing |
+| `llama3.2` (3B) | ~4 GB | Fast | Good for most resumes |
+| `llama3.1` (8B) | ~8 GB | Moderate | Best quality |
+
+### Docker + Ollama
+
+If Reactive Resume runs in Docker and Ollama runs on the host, use this Base URL instead:
+
+```
+http://host.docker.internal:11434
+```
+
+---
+
+## Tech Stack
+
+| Category | Technology |
+|----------|-----------|
+| Framework | TanStack Start (React 19, Vite) |
+| Runtime | Node.js |
+| Language | TypeScript |
+| Database | PostgreSQL with Drizzle ORM |
+| API | ORPC (Type-safe RPC) |
+| Auth | Better Auth |
+| Styling | Tailwind CSS 4 |
+| UI Components | Radix UI |
+| State Management | Zustand + TanStack Query |
+| AI SDK | Vercel AI SDK (ai) |
+| AI Providers | Groq, Ollama, OpenAI, Anthropic, Google Gemini, Vercel AI Gateway |
+
+## Development Commands
+
+```bash
+pnpm dev              # Start dev server (port 3000)
+pnpm build            # Build for production
+pnpm start            # Start production server
+pnpm lint             # Lint with Biome
+pnpm typecheck        # TypeScript type checking
+pnpm db:generate      # Generate migration files
+pnpm db:migrate       # Run migrations
+pnpm db:push          # Push schema changes directly
+pnpm db:studio        # Open Drizzle Studio
+pnpm lingui:extract   # Extract i18n strings
+```
+
+## Project Structure
+
+```
+src/
+  components/         # React components (resume templates, UI)
+  routes/             # File-based routing (TanStack Router)
+    dashboard/        # User dashboard & settings
+      settings/ai.tsx # AI provider configuration page
+    builder/          # Resume editor
+    auth/             # Authentication pages
+  integrations/
+    ai/               # AI store & prompts
+    orpc/
+      router/ai.ts    # AI API endpoints
+      services/ai.ts  # AI service (model factory, parsing)
+    drizzle/          # Database schema & client
+    auth/             # Better Auth config
+  schema/             # Zod validation schemas
+```
+
+## Self-Hosting with Docker
+
+For production deployments:
+
+```bash
+# Clone and configure
+git clone https://github.com/GaspardD78/Customreactiveresume.git
+cd Customreactiveresume
+cp .env.example .env
+# Edit .env with production values (real AUTH_SECRET, proper URLs, etc.)
 
 # Start all services
 docker compose up -d
 
-# Access the app
-open http://localhost:3000
+# Access at http://localhost:3000
 ```
 
-For detailed setup instructions, environment configuration, and self-hosting guides, see the [documentation](https://docs.rxresu.me).
-
-## Tech Stack
-
-| Category         | Technology                           |
-| ---------------- | ------------------------------------ |
-| Framework        | TanStack Start (React 19, Vite)      |
-| Runtime          | Node.js                              |
-| Language         | TypeScript                           |
-| Database         | PostgreSQL with Drizzle ORM          |
-| API              | ORPC (Type-safe RPC)                 |
-| Auth             | Better Auth                          |
-| Styling          | Tailwind CSS                         |
-| UI Components    | Radix UI                             |
-| State Management | Zustand + TanStack Query             |
-
-## Documentation
-
-Comprehensive guides are available at [docs.rxresu.me](https://docs.rxresu.me):
-
-| Guide                                                                       | Description                       |
-| --------------------------------------------------------------------------- | --------------------------------- |
-| [Getting Started](https://docs.rxresu.me/getting-started)                   | First-time setup and basic usage  |
-| [Self-Hosting](https://docs.rxresu.me/self-hosting/docker)                  | Deploy on your own server         |
-| [Development Setup](https://docs.rxresu.me/contributing/development)        | Local development environment     |
-| [Project Architecture](https://docs.rxresu.me/contributing/architecture)    | Codebase structure and patterns   |
-| [Exporting Your Resume](https://docs.rxresu.me/guides/exporting-your-resume)| PDF and JSON export options       |
-
-## Self-Hosting
-
-Reactive Resume can be self-hosted using Docker. The stack includes:
-
-- **PostgreSQL** — Database for storing user data and resumes
-- **Printer** — Headless Chromium service for PDF and screenshot generation
-- **SeaweedFS** (optional) — S3-compatible storage for file uploads
-
-Pull the latest image from Docker Hub or GitHub Container Registry:
-
-```bash
-# Docker Hub
-docker pull amruthpillai/reactive-resume:latest
-
-# GitHub Container Registry
-docker pull ghcr.io/amruthpillai/reactive-resume:latest
-```
-
-See the [self-hosting guide](https://docs.rxresu.me/guides/self-hosting-with-docker) for complete instructions.
-
-## Support
-
-Reactive Resume is and always will be free and open-source. If it has helped you land a job or saved you time, please consider supporting continued development:
-
-<p>
-  <a href="https://github.com/sponsors/AmruthPillai">
-    <img src="https://img.shields.io/badge/GitHub%20Sponsors-Support-ea4aaa?style=flat-square&logo=github-sponsors" alt="GitHub Sponsors" />
-  </a>
-  <a href="https://opencollective.com/reactive-resume">
-    <img src="https://img.shields.io/badge/Open%20Collective-Contribute-7FADF2?style=flat-square&logo=open-collective" alt="Open Collective" />
-  </a>
-</p>
-
-Other ways to support:
-
-- Star this repository
-- Report bugs and suggest features
-- Improve documentation
-- Help with translations
-
-## Star History
-
-<a href="https://www.star-history.com/#amruthpillai/reactive-resume&type=date&legend=top-left">
- <picture>
-   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=amruthpillai/reactive-resume&type=date&theme=dark&legend=top-left" />
-   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=amruthpillai/reactive-resume&type=date&legend=top-left" />
-   <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=amruthpillai/reactive-resume&type=date&legend=top-left" />
- </picture>
-</a>
+The production stack includes PostgreSQL, Browserless (PDF printer), and SeaweedFS (file storage).
 
 ## Contributing
-
-Contributions make open-source thrive. Whether fixing a typo or adding a feature, all contributions are welcome.
 
 1. Fork the repository
 2. Create a feature branch (`git checkout -b feature/amazing-feature`)
@@ -233,8 +412,6 @@ Contributions make open-source thrive. Whether fixing a typo or adding a feature
 4. Push to the branch (`git push origin feature/amazing-feature`)
 5. Open a Pull Request
 
-See the [development setup guide](https://docs.rxresu.me/contributing/development) for detailed instructions on how to set up the project locally.
-
 ## License
 
-[MIT](./LICENSE) — do whatever you want with it.
+[MIT](./LICENSE)
