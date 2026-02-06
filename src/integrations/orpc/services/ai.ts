@@ -5,7 +5,7 @@ import { createOpenAI } from "@ai-sdk/openai";
 import { createGateway, generateText, Output } from "ai";
 import { createOllama } from "ai-sdk-ollama";
 import mammoth from "mammoth";
-import pdfParse from "pdf-parse";
+import { PDFParse } from "pdf-parse";
 import { match } from "ts-pattern";
 import type { ZodError } from "zod";
 import z, { flattenError } from "zod";
@@ -57,8 +57,13 @@ export function requiresApiKey(provider: AIProvider): boolean {
  */
 async function extractTextFromPdf(base64Data: string): Promise<string> {
 	const buffer = Buffer.from(base64Data, "base64");
-	const result = await pdfParse(buffer);
-	return result.text;
+	const parser = new PDFParse({ data: buffer });
+	try {
+		const result = await parser.getText();
+		return result.text;
+	} finally {
+		await parser.destroy();
+	}
 }
 
 /**
