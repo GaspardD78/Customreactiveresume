@@ -94,8 +94,8 @@ export function Templates() {
 
 				<p className="max-w-2xl text-muted-foreground leading-relaxed">
 					<Trans>
-						Explore our diverse selection of templates, each designed to fit different styles, professions, and
-						personalities. Reactive Resume currently offers 12 templates, with more on the way.
+						Choose from 12+ professionally designed templates. Each one is fully customizable with colors, fonts,
+						spacing and custom CSS.
 					</Trans>
 				</p>
 			</motion.div>

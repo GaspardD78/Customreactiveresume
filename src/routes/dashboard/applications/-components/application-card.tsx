@@ -23,9 +23,8 @@ export function ApplicationCard({ id, data, onDelete }: Props) {
 					<div className="min-w-0 flex-1">
 						<h3 className="truncate text-base">
 							<Link
-								to={"/dashboard/applications/$applicationId" as string}
-								// biome-ignore lint/suspicious/noExplicitAny: route not yet in generated route tree
-								params={{ applicationId: id } as any}
+								to="/dashboard/applications/$applicationId"
+								params={{ applicationId: id }}
 								className="hover:underline"
 							>
 								{jobOffer.title || t`Untitled Position`}

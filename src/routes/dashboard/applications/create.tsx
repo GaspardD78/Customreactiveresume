@@ -16,7 +16,6 @@ import type { JobOffer } from "@/schema/application/job-offer";
 import { defaultJobOffer } from "@/schema/application/job-offer";
 import { DashboardHeader } from "../-components/header";
 
-// @ts-expect-error - route not yet in generated route tree
 export const Route = createFileRoute("/dashboard/applications/create")({
 	component: RouteComponent,
 });
@@ -37,9 +36,8 @@ function RouteComponent() {
 		orpc.application.create.mutationOptions({
 			onSuccess: (result) => {
 				navigate({
-					to: "/dashboard/applications/$applicationId" as string,
-					// biome-ignore lint/suspicious/noExplicitAny: route not yet in generated route tree
-					params: { applicationId: result.id } as any,
+					to: "/dashboard/applications/$applicationId",
+					params: { applicationId: result.id },
 				});
 			},
 		}),
@@ -184,7 +182,7 @@ function RouteComponent() {
 
 			{/* Create button */}
 			<div className="flex justify-end gap-3">
-				<Button variant="outline" onClick={() => navigate({ to: "/dashboard/applications" as string })}>
+				<Button variant="outline" onClick={() => navigate({ to: "/dashboard/applications" })}>
 					<Trans>Cancel</Trans>
 				</Button>
 				<Button onClick={handleCreate} disabled={createMutation.isPending}>

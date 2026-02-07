@@ -24,13 +24,12 @@ import { DashboardHeader } from "../../-components/header";
 import { AtsScoreGauge } from "../-components/ats-score-gauge";
 import { StatusBadge } from "../-components/status-badge";
 
-// @ts-expect-error - route not yet in generated route tree
 export const Route = createFileRoute("/dashboard/applications/$applicationId/")({
 	component: RouteComponent,
 });
 
 function RouteComponent() {
-	const { applicationId } = Route.useParams() as { applicationId: string };
+	const { applicationId } = Route.useParams();
 	const aiStore = useAIStore();
 
 	const { data: application, refetch } = useQuery(
@@ -114,7 +113,7 @@ function RouteComponent() {
 			{/* Header */}
 			<div className="flex items-center gap-4">
 				<Button asChild variant="ghost" size="icon">
-					<Link to={"/dashboard/applications" as string}>
+					<Link to="/dashboard/applications">
 						<ArrowLeftIcon />
 					</Link>
 				</Button>

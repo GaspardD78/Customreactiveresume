@@ -1,22 +1,21 @@
 import { t } from "@lingui/core/macro";
 import { Trans } from "@lingui/react/macro";
 import {
+	BriefcaseIcon,
+	ChartBarIcon,
 	CloudArrowUpIcon,
-	CodeSimpleIcon,
+	CopyIcon,
 	CurrencyDollarIcon,
-	DatabaseIcon,
-	DotsThreeIcon,
-	FileCssIcon,
+	EnvelopeSimpleIcon,
 	FilesIcon,
-	GithubLogoIcon,
 	GlobeIcon,
 	type Icon,
-	KeyIcon,
-	LayoutIcon,
+	ListChecksIcon,
 	LockSimpleIcon,
+	MagnifyingGlassIcon,
 	PaletteIcon,
-	ProhibitIcon,
 	ShieldCheckIcon,
+	SparkleIcon,
 	TranslateIcon,
 } from "@phosphor-icons/react";
 import { motion } from "motion/react";
@@ -35,100 +34,94 @@ type FeatureCardProps = Feature & {
 
 const getFeatures = (): Feature[] => [
 	{
+		id: "ats-scoring",
+		icon: ChartBarIcon,
+		title: t`ATS Scoring`,
+		description: t`Get a detailed optimization score (0-100) for each job offer based on keyword match, structure and completeness.`,
+	},
+	{
+		id: "job-parsing",
+		icon: MagnifyingGlassIcon,
+		title: t`Job Offer Parsing`,
+		description: t`Paste any job offer text and AI automatically extracts title, company, required skills, nice-to-have and more.`,
+	},
+	{
+		id: "cover-letter",
+		icon: EnvelopeSimpleIcon,
+		title: t`Cover Letter Generation`,
+		description: t`Generate personalized cover letters with a natural, human tone tailored to each job offer.`,
+	},
+	{
+		id: "optimized-cv",
+		icon: CopyIcon,
+		title: t`Optimized Resume Fork`,
+		description: t`Duplicate your resume in one click and adapt it for a specific job offer following AI suggestions.`,
+	},
+	{
+		id: "application-tracking",
+		icon: BriefcaseIcon,
+		title: t`Application Tracking`,
+		description: t`Manage all your applications in one place with status tracking, history, contacts and notes.`,
+	},
+	{
+		id: "suggestions",
+		icon: SparkleIcon,
+		title: t`Block-by-Block Suggestions`,
+		description: t`AI analyzes each section of your resume and proposes specific reformulations with original vs. proposed text.`,
+	},
+	{
+		id: "keyword-analysis",
+		icon: ListChecksIcon,
+		title: t`Keyword Analysis`,
+		description: t`See which keywords from the job offer are found in your resume, which are missing and their synonyms.`,
+	},
+	{
 		id: "free",
 		icon: CurrencyDollarIcon,
-		title: t`Free`,
-		description: t`Completely free, forever, no hidden costs.`,
-	},
-	{
-		id: "open-source",
-		icon: GithubLogoIcon,
-		title: t`Open Source`,
-		description: t`By the community, for the community.`,
-	},
-	{
-		id: "no-ads",
-		icon: ProhibitIcon,
-		title: t`No Advertising, No Tracking`,
-		description: t`For a secure and distraction-free experience.`,
-	},
-	{
-		id: "data-security",
-		icon: DatabaseIcon,
-		title: t`Data Security`,
-		description: t`Your data is secure, and never shared or sold to anyone.`,
-	},
-	{
-		id: "self-host",
-		icon: CloudArrowUpIcon,
-		title: t`Self-Host with Docker`,
-		description: t`You also have the option to deploy on your own servers using the Docker image.`,
-	},
-	{
-		id: "languages",
-		icon: TranslateIcon,
-		title: t`Multilingual`,
-		description: t`Available in multiple languages. If you would like to contribute, check out Crowdin.`,
-	},
-	{
-		id: "auth",
-		icon: KeyIcon,
-		title: t`One-Click Sign-In`,
-		description: t`Sign in with GitHub, Google or a custom OAuth provider.`,
-	},
-	{
-		id: "2fa",
-		icon: ShieldCheckIcon,
-		title: t`Passkeys & 2FA`,
-		description: t`Enhance the security of your account with additional layers of protection.`,
+		title: t`Free & Open Source`,
+		description: t`Completely free, forever. No hidden costs, no premium tiers, no tracking.`,
 	},
 	{
 		id: "unlimited-resumes",
 		icon: FilesIcon,
 		title: t`Unlimited Resumes`,
-		description: t`Create as many resumes as you want, without limits.`,
+		description: t`Create as many resumes as you want, without any limits.`,
 	},
 	{
 		id: "design",
 		icon: PaletteIcon,
-		title: t`Flexibility`,
-		description: t`Personalize your resume with any colors, fonts or designs, and make it your own.`,
-	},
-	{
-		id: "css",
-		icon: FileCssIcon,
-		title: t`Custom CSS`,
-		description: t`Write your own CSS (or use an AI to generate it for you) to customize your resume to the fullest.`,
-	},
-	{
-		id: "templates",
-		icon: LayoutIcon,
 		title: t`12+ Templates`,
-		description: t`Beautiful templates to choose from, with more on the way.`,
+		description: t`Beautiful templates to choose from. Customize colors, fonts, spacing and even write custom CSS.`,
+	},
+	{
+		id: "languages",
+		icon: TranslateIcon,
+		title: t`Multilingual`,
+		description: t`Available in multiple languages. Switch anytime from the language selector.`,
+	},
+	{
+		id: "privacy",
+		icon: ShieldCheckIcon,
+		title: t`Privacy First`,
+		description: t`Your data is secure, never shared. AI keys stay in your browser. Self-host for full control.`,
 	},
 	{
 		id: "public",
 		icon: GlobeIcon,
 		title: t`Shareable Links`,
-		description: t`Share your resume with a public URL, and let others view it.`,
+		description: t`Share your resume with a public URL or protect it with a password.`,
+	},
+	{
+		id: "self-host",
+		icon: CloudArrowUpIcon,
+		title: t`Self-Host with Docker`,
+		description: t`Deploy on your own servers using the Docker image for complete data ownership.`,
 	},
 	{
 		id: "password-protection",
 		icon: LockSimpleIcon,
 		title: t`Password Protection`,
-		description: t`Protect your resume with a password, and let only people with the password view it.`,
-	},
-	{
-		id: "api-access",
-		icon: CodeSimpleIcon,
-		title: t`API Access`,
-		description: t`Access your resumes and data programmatically using the API.`,
-	},
-	{
-		id: "more",
-		icon: DotsThreeIcon,
-		title: t`And many more...`,
-		description: t`New features are constantly being added and improved, so be sure to check back often.`,
+		description: t`Protect your resume with a password and control who can view it.`,
 	},
 ];
 
@@ -184,8 +177,8 @@ export function Features() {
 
 				<p className="max-w-2xl text-muted-foreground leading-relaxed">
 					<Trans>
-						Everything you need to create, customize, and share professional resumes. Built with privacy in mind,
-						powered by open source, and completely free forever.
+						Everything you need to create professional resumes and optimize them for each job application. AI-powered
+						analysis, ATS scoring, and cover letter generation included.
 					</Trans>
 				</p>
 			</motion.div>

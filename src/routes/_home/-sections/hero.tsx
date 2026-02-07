@@ -1,6 +1,6 @@
 import { t } from "@lingui/core/macro";
 import { Trans } from "@lingui/react/macro";
-import { ArrowRightIcon } from "@phosphor-icons/react";
+import { ArrowRightIcon, SparkleIcon } from "@phosphor-icons/react";
 import { Link } from "@tanstack/react-router";
 import { motion } from "motion/react";
 import { CometCard } from "@/components/animation/comet-card";
@@ -29,7 +29,7 @@ export function Hero() {
 						// @ts-expect-error - typescript doesn't know about fetchPriority for video elements
 						fetchPriority="high"
 						src="/videos/timelapse.mp4"
-						aria-label={t`Timelapse demonstration of building a resume with Reactive Resume Optimiser`}
+						aria-label={t`Demonstration of building and optimizing a resume`}
 						className="pointer-events-none size-full rounded-lg border object-cover"
 					/>
 
@@ -47,12 +47,13 @@ export function Hero() {
 					animate={{ opacity: 1, y: 0 }}
 					transition={{ duration: 0.6, delay: 1 }}
 				>
-					<Trans>
-						<p className="font-medium text-muted-foreground tracking-tight md:text-lg">Finally,</p>
-						<h1 className="mt-1 font-bold text-4xl tracking-tight md:text-5xl lg:text-6xl">
-							A free and open-source resume builder
-						</h1>
-					</Trans>
+					<p className="flex items-center justify-center gap-2 font-medium text-muted-foreground tracking-tight md:text-lg">
+						<SparkleIcon className="size-5 text-primary" aria-hidden="true" />
+						<Trans>AI-Powered</Trans>
+					</p>
+					<h1 className="mt-1 font-bold text-4xl tracking-tight md:text-5xl lg:text-6xl">
+						<Trans>Optimize your resume for every job offer</Trans>
+					</h1>
 				</motion.div>
 
 				{/* Description */}
@@ -63,8 +64,8 @@ export function Hero() {
 					transition={{ duration: 0.6, delay: 1.2 }}
 				>
 					<Trans>
-						Reactive Resume Optimiser is a free and open-source resume builder that optimizes your job applications with
-						AI-powered analysis.
+						Create your resume, paste a job offer, and let AI analyze the match. ATS score, tailored suggestions, and
+						cover letter generation — all in one place.
 					</Trans>
 				</motion.p>
 

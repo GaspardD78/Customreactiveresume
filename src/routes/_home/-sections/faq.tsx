@@ -3,10 +3,7 @@ import { Trans } from "@lingui/react/macro";
 import { CaretRightIcon } from "@phosphor-icons/react";
 import { motion } from "motion/react";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/utils/style";
-
-const crowdinUrl = "https://crowdin.com/project/reactive-resume";
 
 type FAQItemData = {
 	question: string;
@@ -15,48 +12,32 @@ type FAQItemData = {
 
 const getFaqItems = (): FAQItemData[] => [
 	{
-		question: t`Is Reactive Resume really free?`,
-		answer: t`Yes! Reactive Resume is completely free to use, with no hidden costs, premium tiers, or subscription fees. It's open-source and will always remain free.`,
+		question: t`Is Reactive Resume Optimiser free?`,
+		answer: t`Yes, completely free with no hidden costs or premium tiers. The application is open-source and will always remain free.`,
+	},
+	{
+		question: t`How does the ATS score work?`,
+		answer: t`The AI compares your resume against the job offer. The score (0-100) is based on keyword match (50%), resume structure (25%) and information completeness (25%). You also get detailed suggestions to improve each section.`,
+	},
+	{
+		question: t`Which AI providers are supported?`,
+		answer: t`You can use OpenAI, Anthropic, Google Gemini, Groq (free tier available) or Ollama for fully local and private analysis. Your API key stays in your browser and is never stored on our servers.`,
+	},
+	{
+		question: t`Can the AI-generated cover letters be detected?`,
+		answer: t`Our prompts are specifically designed with anti-detection techniques: varied sentence structures, natural vocabulary, no generic AI-detectable phrases. The result reads like a human-written letter.`,
 	},
 	{
 		question: t`How is my data protected?`,
-		answer: t`Your data is stored securely and is never shared with third parties. You can also self-host Reactive Resume on your own servers for complete control over your data.`,
+		answer: t`Your data is stored securely and never shared with third parties. AI API keys remain in your browser. You can also self-host the entire application on your own servers with Docker.`,
+	},
+	{
+		question: t`Can I optimize the same resume for multiple offers?`,
+		answer: t`Yes. You can create an optimized fork of your resume for each job application. Each fork is independent and can be edited separately in the builder.`,
 	},
 	{
 		question: t`Can I export my resume to PDF?`,
-		answer: t`Absolutely! You can export your resume to PDF with a single click. The exported PDF maintains all your formatting and styling perfectly.`,
-	},
-	{
-		question: t`Is Reactive Resume available in multiple languages?`,
-		answer: (
-			<Trans>
-				Yes, Reactive Resume is available in multiple languages. You can choose your preferred language in the settings
-				page, or using the language switcher in the top right corner. If you don't see your language, or you would like
-				to improve the existing translations, you can{" "}
-				<a
-					href={crowdinUrl}
-					target="_blank"
-					rel="noopener"
-					className={buttonVariants({ variant: "link", className: "h-auto px-0!" })}
-				>
-					contribute to the translations on Crowdin
-					<span className="sr-only"> (opens in new tab)</span>
-				</a>
-				.
-			</Trans>
-		),
-	},
-	{
-		question: t`What makes Reactive Resume different from other resume builders?`,
-		answer: t`Reactive Resume is open-source, privacy-focused, and completely free. Unlike other resume builders, it doesn't show ads, track your data, or limit your features behind a paywall.`,
-	},
-	{
-		question: t`Can I customize the templates?`,
-		answer: t`Yes! Every template is fully customizable. You can change colors, fonts, spacing, and even write custom CSS for complete control over your resume's appearance.`,
-	},
-	{
-		question: t`How do I share my resume?`,
-		answer: t`You can share your resume via a unique public URL, protect it with a password, or download it as a PDF to share directly. The choice is yours!`,
+		answer: t`Yes, you can export your resume to PDF with a single click. The exported PDF preserves all your formatting and styling.`,
 	},
 ];
 
