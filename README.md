@@ -1,20 +1,31 @@
 <div align="center">
 
-  <h1>Custom Reactive Resume</h1>
+  <h1>Reactive Resume Optimiser</h1>
 
-  <p>Un créateur de CV gratuit et open-source. Créez, modifiez et partagez votre CV facilement.</p>
+  <p>Un créateur de CV optimisé par l'IA. Créez, analysez et optimisez vos CV pour chaque offre d'emploi.</p>
 
 </div>
 
 ---
 
-## Qu'est-ce que Reactive Resume ?
+## Qu'est-ce que Reactive Resume Optimiser ?
 
-Reactive Resume vous permet de créer des CV professionnels avec un aperçu en temps réel. Choisissez un modèle, remplissez vos informations, exportez en PDF. Aucun compte requis pour une utilisation basique.
+Reactive Resume Optimiser est un outil complet de gestion de candidatures et d'optimisation de CV, basé sur le projet open-source Reactive Resume. En plus de la création classique de CV, il intègre des fonctionnalités d'intelligence artificielle pour maximiser vos chances de décrocher un entretien.
 
-**Fonctionnalités clés :** plusieurs modèles, sections par glisser-déposer, export PDF/JSON, import de CV assisté par IA, mode sombre, support multilingue, auto-hébergement.
+**Fonctionnalités clés :**
 
-Respect de la vie privée : open-source (MIT), aucun tracking, aucune publicité, vos données restent les vôtres.
+- Plusieurs modèles de CV, sections par glisser-déposer, export PDF/JSON
+- Import de CV assisté par IA (PDF, Word)
+- Mode sombre, support multilingue, auto-hébergement
+- Respect de la vie privée : open-source (MIT), aucun tracking, aucune publicité
+
+### Fonctionnalités IA (nouveau)
+
+- **Espace candidatures** : centralisez toutes vos candidatures avec suivi complet (statut, historique, contacts, notes, prochaines actions)
+- **Parsing intelligent d'offres d'emploi** : collez le texte d'une offre et l'IA extrait automatiquement les informations structurées (poste, entreprise, compétences requises, nice-to-have, etc.)
+- **Analyse ATS du CV** : score d'optimisation 0-100 par offre, basé sur la correspondance des mots-clés (50%), la structure (25%) et la complétude (25%), avec suggestions détaillées bloc par bloc
+- **Génération de lettre de motivation** : lettre personnalisée générée par l'IA avec un ton naturel et humain (anti-détection IA)
+- **Fork de CV optimisé** : dupliquez automatiquement un CV et adaptez-le pour une offre spécifique
 
 ## Modèles
 
@@ -83,50 +94,50 @@ Respect de la vie privée : open-source (MIT), aucun tracking, aucune publicité
 
 ---
 
-## Installation sur Windows (pas à pas)
+## Installation sur Windows (pas a pas)
 
-Ce guide est pour **Windows 10 ou 11**. Aucune connaissance technique préalable n'est nécessaire. Suivez chaque étape dans l'ordre.
+Ce guide est pour **Windows 10 ou 11**. Aucune connaissance technique prealable n'est necessaire. Suivez chaque etape dans l'ordre.
 
-### Étape 1 — Installer Git
+### Etape 1 -- Installer Git
 
-Git est un outil qui permet de télécharger le code du projet.
+Git est un outil qui permet de telecharger le code du projet.
 
 1. Allez sur [git-scm.com/download/win](https://git-scm.com/download/win)
-2. Cliquez sur **"Click here to download"** — l'installateur se télécharge automatiquement
+2. Cliquez sur **"Click here to download"** -- l'installateur se telecharge automatiquement
 3. Lancez l'installateur (fichier `.exe`)
-4. Cliquez sur **Next** à chaque écran — les options par défaut conviennent
+4. Cliquez sur **Next** a chaque ecran -- les options par defaut conviennent
 5. Cliquez sur **Install**, puis **Finish**
 
-**Vérification :** ouvrez le **menu Démarrer**, tapez `cmd`, ouvrez l'**Invite de commandes**, et tapez :
+**Verification :** ouvrez le **menu Demarrer**, tapez `cmd`, ouvrez l'**Invite de commandes**, et tapez :
 
 ```
 git --version
 ```
 
-Vous devriez voir quelque chose comme `git version 2.xx.x`. Si c'est le cas, Git est installé.
+Vous devriez voir quelque chose comme `git version 2.xx.x`. Si c'est le cas, Git est installe.
 
-### Étape 2 — Installer Node.js
+### Etape 2 -- Installer Node.js
 
-Node.js exécute le code de l'application.
+Node.js execute le code de l'application.
 
 1. Allez sur [nodejs.org](https://nodejs.org/)
-2. Téléchargez la version **LTS** (le gros bouton vert à gauche)
+2. Telechargez la version **LTS** (le gros bouton vert a gauche)
 3. Lancez l'installateur (fichier `.msi`)
-4. Cliquez sur **Next** à chaque écran — gardez toutes les options par défaut
-5. **Important :** à l'écran "Tools for Native Modules", cochez la case **"Automatically install the necessary tools"** si elle apparaît
+4. Cliquez sur **Next** a chaque ecran -- gardez toutes les options par defaut
+5. **Important :** a l'ecran "Tools for Native Modules", cochez la case **"Automatically install the necessary tools"** si elle apparait
 6. Cliquez sur **Install**, puis **Finish**
 
-**Vérification :** fermez et rouvrez l'Invite de commandes, puis tapez :
+**Verification :** fermez et rouvrez l'Invite de commandes, puis tapez :
 
 ```
 node --version
 ```
 
-Vous devriez voir `v24.x.x` ou supérieur.
+Vous devriez voir `v24.x.x` ou superieur.
 
-### Étape 3 — Activer pnpm
+### Etape 3 -- Activer pnpm
 
-pnpm est le gestionnaire de paquets utilisé par ce projet. Il est fourni avec Node.js, il suffit de l'activer.
+pnpm est le gestionnaire de paquets utilise par ce projet. Il est fourni avec Node.js, il suffit de l'activer.
 
 Ouvrez l'Invite de commandes et tapez :
 
@@ -135,30 +146,30 @@ corepack enable
 corepack prepare pnpm@latest --activate
 ```
 
-**Vérification :**
+**Verification :**
 
 ```
 pnpm --version
 ```
 
-Vous devriez voir un numéro de version comme `10.x.x`.
+Vous devriez voir un numero de version comme `10.x.x`.
 
-### Étape 4 — Installer Docker Desktop
+### Etape 4 -- Installer Docker Desktop
 
-Docker exécute la base de données et les autres services nécessaires à l'application.
+Docker execute la base de donnees et les autres services necessaires a l'application.
 
 1. Allez sur [docker.com/products/docker-desktop](https://www.docker.com/products/docker-desktop/)
 2. Cliquez sur **"Download for Windows"**
 3. Lancez l'installateur
-4. Quand demandé, gardez **"Use WSL 2 instead of Hyper-V"** coché (recommandé)
+4. Quand demande, gardez **"Use WSL 2 instead of Hyper-V"** coche (recommande)
 5. Cliquez sur **OK**, puis laissez l'installation se terminer
-6. **Redémarrez votre ordinateur** quand demandé
-7. Après le redémarrage, Docker Desktop s'ouvre automatiquement. Acceptez les conditions d'utilisation
-8. Attendez que l'indicateur en bas à gauche de Docker Desktop affiche **"Engine running"** (icône verte)
+6. **Redemarrez votre ordinateur** quand demande
+7. Apres le redemarrage, Docker Desktop s'ouvre automatiquement. Acceptez les conditions d'utilisation
+8. Attendez que l'indicateur en bas a gauche de Docker Desktop affiche **"Engine running"** (icone verte)
 
-> **Note :** Si Docker vous demande d'installer ou mettre à jour WSL 2, suivez le lien fourni, installez la mise à jour, puis redémarrez à nouveau.
+> **Note :** Si Docker vous demande d'installer ou mettre a jour WSL 2, suivez le lien fourni, installez la mise a jour, puis redemarrez a nouveau.
 
-**Vérification :** ouvrez l'Invite de commandes et tapez :
+**Verification :** ouvrez l'Invite de commandes et tapez :
 
 ```
 docker --version
@@ -166,9 +177,9 @@ docker --version
 
 Vous devriez voir `Docker version 2x.x.x`.
 
-### Étape 5 — Télécharger le projet
+### Etape 5 -- Telecharger le projet
 
-Ouvrez l'Invite de commandes. Choisissez où vous voulez le dossier du projet (par exemple, votre dossier Documents) :
+Ouvrez l'Invite de commandes. Choisissez ou vous voulez le dossier du projet (par exemple, votre dossier Documents) :
 
 ```
 cd %USERPROFILE%\Documents
@@ -176,39 +187,39 @@ git clone https://github.com/GaspardD78/Customreactiveresume.git
 cd Customreactiveresume
 ```
 
-Ceci crée un dossier appelé `Customreactiveresume` avec tous les fichiers du projet.
+Ceci cree un dossier appele `Customreactiveresume` avec tous les fichiers du projet.
 
-### Étape 6 — Configurer le fichier d'environnement
+### Etape 6 -- Configurer le fichier d'environnement
 
-Le projet a besoin d'un fichier de configuration appelé `.env`.
+Le projet a besoin d'un fichier de configuration appele `.env`.
 
 ```
 copy .env.example .env
 ```
 
-C'est tout. Les valeurs par défaut fonctionnent pour le développement local — aucune modification nécessaire.
+C'est tout. Les valeurs par defaut fonctionnent pour le developpement local -- aucune modification necessaire.
 
-> **Pour les utilisateurs avancés :** ouvrez `.env` dans un éditeur de texte (le Bloc-notes fonctionne) si vous souhaitez personnaliser les paramètres. Pour la production, remplacez `AUTH_SECRET` par une clé aléatoire forte.
+> **Pour les utilisateurs avances :** ouvrez `.env` dans un editeur de texte (le Bloc-notes fonctionne) si vous souhaitez personnaliser les parametres. Pour la production, remplacez `AUTH_SECRET` par une cle aleatoire forte.
 
-### Étape 7 — Démarrer les services (base de données, etc.)
+### Etape 7 -- Demarrer les services (base de donnees, etc.)
 
-Assurez-vous que **Docker Desktop est en cours d'exécution** (vérifiez l'icône verte dans la barre des tâches), puis tapez :
+Assurez-vous que **Docker Desktop est en cours d'execution** (verifiez l'icone verte dans la barre des taches), puis tapez :
 
 ```
 docker compose -f compose.dev.yml up -d
 ```
 
-Ceci télécharge et démarre 5 services en arrière-plan :
+Ceci telecharge et demarre 5 services en arriere-plan :
 
 | Service | Fonction | Adresse |
 |---------|----------|---------|
-| PostgreSQL | Base de données | localhost:5432 |
-| Browserless | Génération de PDF | localhost:4000 |
+| PostgreSQL | Base de donnees | localhost:5432 |
+| Browserless | Generation de PDF | localhost:4000 |
 | SeaweedFS | Stockage de fichiers | localhost:8333 |
 | Mailpit | Capture des emails de test | [localhost:8025](http://localhost:8025) |
 | Adminer | Panneau d'administration de la BDD | [localhost:8080](http://localhost:8080) |
 
-La première fois, cela télécharge plusieurs images — attendez la fin. Vérifiez que tout fonctionne :
+La premiere fois, cela telecharge plusieurs images -- attendez la fin. Verifiez que tout fonctionne :
 
 ```
 docker compose -f compose.dev.yml ps
@@ -216,83 +227,83 @@ docker compose -f compose.dev.yml ps
 
 Tous les services devraient afficher **"running"** ou **"healthy"**.
 
-### Étape 8 — Installer les dépendances du projet
+### Etape 8 -- Installer les dependances du projet
 
 ```
 pnpm install
 ```
 
-Ceci télécharge toutes les bibliothèques de code nécessaires au projet. Attendez la fin de l'opération.
+Ceci telecharge toutes les bibliotheques de code necessaires au projet. Attendez la fin de l'operation.
 
-### Étape 9 — Configurer la base de données
+### Etape 9 -- Configurer la base de donnees
 
 ```
 pnpm db:push
 ```
 
-Ceci crée les tables de la base de données. Vous devriez voir une sortie se terminant par un message de succès.
+Ceci cree les tables de la base de donnees. Vous devriez voir une sortie se terminant par un message de succes.
 
-### Étape 10 — Démarrer l'application
+### Etape 10 -- Demarrer l'application
 
 ```
 pnpm dev
 ```
 
-Attendez de voir un message indiquant que le serveur est prêt sur le port 3000, puis ouvrez votre navigateur et allez sur :
+Attendez de voir un message indiquant que le serveur est pret sur le port 3000, puis ouvrez votre navigateur et allez sur :
 
 **http://localhost:3000**
 
-Vous devriez voir la page d'accueil de Reactive Resume. Cliquez sur **Sign Up** pour créer votre compte.
+Vous devriez voir la page d'accueil de Reactive Resume Optimiser. Cliquez sur **Sign Up** pour creer votre compte.
 
-> **Astuce :** Les emails de test (pour la vérification du compte) sont capturés par Mailpit. Ouvrez [http://localhost:8025](http://localhost:8025) pour les consulter.
+> **Astuce :** Les emails de test (pour la verification du compte) sont captures par Mailpit. Ouvrez [http://localhost:8025](http://localhost:8025) pour les consulter.
 
-### Arrêt et redémarrage
+### Arret et redemarrage
 
-**Pour arrêter l'application :** appuyez sur `Ctrl + C` dans l'Invite de commandes où `pnpm dev` est en cours d'exécution.
+**Pour arreter l'application :** appuyez sur `Ctrl + C` dans l'Invite de commandes ou `pnpm dev` est en cours d'execution.
 
-**Pour arrêter les services en arrière-plan :**
+**Pour arreter les services en arriere-plan :**
 
 ```
 docker compose -f compose.dev.yml down
 ```
 
-**Pour tout redémarrer plus tard :**
+**Pour tout redemarrer plus tard :**
 
-1. Ouvrez Docker Desktop (attendez l'icône verte)
+1. Ouvrez Docker Desktop (attendez l'icone verte)
 2. Ouvrez l'Invite de commandes
 3. Naviguez vers le dossier du projet : `cd %USERPROFILE%\Documents\Customreactiveresume`
-4. Démarrez les services : `docker compose -f compose.dev.yml up -d`
-5. Démarrez l'application : `pnpm dev`
+4. Demarrez les services : `docker compose -f compose.dev.yml up -d`
+5. Demarrez l'application : `pnpm dev`
 6. Ouvrez http://localhost:3000
 
-### Dépannage
+### Depannage
 
-| Problème | Solution |
+| Probleme | Solution |
 |----------|----------|
-| Commande `docker` introuvable | Assurez-vous que Docker Desktop est en cours d'exécution. Redémarrez l'Invite de commandes. |
-| Commande `pnpm` introuvable | Relancez `corepack enable`. Redémarrez l'Invite de commandes. |
-| Commande `node` introuvable | Réinstallez Node.js depuis [nodejs.org](https://nodejs.org/). Redémarrez l'Invite de commandes. |
-| Port déjà utilisé | Un autre programme utilise ce port. Arrêtez-le, ou changez le port dans `.env`. |
-| Les services Docker ne démarrent pas | Vérifiez que Docker Desktop est en cours d'exécution (icône verte). Essayez `docker compose -f compose.dev.yml down` puis `up -d` à nouveau. |
-| `pnpm dev` affiche des erreurs | Assurez-vous que les étapes 7, 8 et 9 se sont terminées sans erreurs. Réessayez `pnpm install`. |
-| Impossible d'accéder à localhost:3000 | Attendez que le serveur de développement ait complètement démarré. Vérifiez les messages d'erreur dans le terminal. |
-| Erreur de migration « relation already exists » | Les migrations sont idempotentes (`IF NOT EXISTS`). Si l'erreur persiste, exécutez `pnpm db:push` pour synchroniser le schéma directement. |
+| Commande `docker` introuvable | Assurez-vous que Docker Desktop est en cours d'execution. Redemarrez l'Invite de commandes. |
+| Commande `pnpm` introuvable | Relancez `corepack enable`. Redemarrez l'Invite de commandes. |
+| Commande `node` introuvable | Reinstallez Node.js depuis [nodejs.org](https://nodejs.org/). Redemarrez l'Invite de commandes. |
+| Port deja utilise | Un autre programme utilise ce port. Arretez-le, ou changez le port dans `.env`. |
+| Les services Docker ne demarrent pas | Verifiez que Docker Desktop est en cours d'execution (icone verte). Essayez `docker compose -f compose.dev.yml down` puis `up -d` a nouveau. |
+| `pnpm dev` affiche des erreurs | Assurez-vous que les etapes 7, 8 et 9 se sont terminees sans erreurs. Reessayez `pnpm install`. |
+| Impossible d'acceder a localhost:3000 | Attendez que le serveur de developpement ait completement demarre. Verifiez les messages d'erreur dans le terminal. |
+| Erreur de migration "relation already exists" | Les migrations sont idempotentes (`IF NOT EXISTS`). Si l'erreur persiste, executez `pnpm db:push` pour synchroniser le schema directement. |
 
 ---
 
 ## Installation sur macOS / Linux
 
 <details>
-<summary>Cliquez pour développer</summary>
+<summary>Cliquez pour developper</summary>
 
-### Prérequis
+### Prerequis
 
-- **Node.js** 24+ — [nodejs.org](https://nodejs.org/)
-- **pnpm** — `corepack enable && corepack prepare pnpm@latest --activate`
-- **Docker** & Docker Compose — [docs.docker.com/get-docker](https://docs.docker.com/get-docker/)
-- **Git** — [git-scm.com](https://git-scm.com/)
+- **Node.js** 24+ -- [nodejs.org](https://nodejs.org/)
+- **pnpm** -- `corepack enable && corepack prepare pnpm@latest --activate`
+- **Docker** & Docker Compose -- [docs.docker.com/get-docker](https://docs.docker.com/get-docker/)
+- **Git** -- [git-scm.com](https://git-scm.com/)
 
-### Démarrage rapide
+### Demarrage rapide
 
 ```bash
 git clone https://github.com/GaspardD78/Customreactiveresume.git
@@ -310,59 +321,104 @@ Ouvrez http://localhost:3000.
 
 ---
 
-## Intégration IA (optionnel)
+## Integration IA
 
-Reactive Resume peut utiliser l'IA pour analyser des CV PDF/Word et les convertir en données structurées. Deux options :
+Reactive Resume Optimiser utilise l'IA pour analyser des CV, parser des offres d'emploi, calculer des scores ATS et generer des lettres de motivation. Configurez un fournisseur IA pour activer ces fonctionnalites.
 
-### Option A — Groq (cloud, offre gratuite)
+### Option A -- Groq (cloud, offre gratuite)
 
-1. Créez un compte sur [console.groq.com](https://console.groq.com)
-2. Allez dans **API Keys** > **Create API Key** > copiez la clé
+1. Creez un compte sur [console.groq.com](https://console.groq.com)
+2. Allez dans **API Keys** > **Create API Key** > copiez la cle
 3. Dans l'application : **Dashboard > Settings > AI**
-4. Fournisseur : **Groq**, Modèle : `llama-3.3-70b-versatile`, collez votre clé API
-5. Cliquez sur **Test Connection**, puis activez les fonctionnalités IA
+4. Fournisseur : **Groq**, Modele : `llama-3.3-70b-versatile`, collez votre cle API
+5. Cliquez sur **Test Connection**, puis activez les fonctionnalites IA
 
-Modèles recommandés : `llama-3.3-70b-versatile` (meilleure qualité), `llama-3.1-8b-instant` (plus rapide).
+Modeles recommandes : `llama-3.3-70b-versatile` (meilleure qualite), `llama-3.1-8b-instant` (plus rapide).
 
-> Votre clé API reste dans votre navigateur. Elle n'est jamais envoyée aux serveurs de Reactive Resume.
+> Votre cle API reste dans votre navigateur. Elle n'est jamais envoyee aux serveurs de l'application.
 
-### Option B — Ollama (local, entièrement privé)
+### Option B -- Ollama (local, entierement prive)
 
-1. Téléchargez Ollama depuis [ollama.ai/download](https://ollama.ai/download) et installez-le
-2. Ouvrez l'Invite de commandes et exécutez :
+1. Telechargez Ollama depuis [ollama.ai/download](https://ollama.ai/download) et installez-le
+2. Ouvrez l'Invite de commandes et executez :
    ```
    ollama pull llama3.2
    ```
 3. Dans l'application : **Dashboard > Settings > AI**
-4. Fournisseur : **Ollama (Local)**, Modèle : `llama3.2`
-5. Cliquez sur **Test Connection**, puis activez les fonctionnalités IA
+4. Fournisseur : **Ollama (Local)**, Modele : `llama3.2`
+5. Cliquez sur **Test Connection**, puis activez les fonctionnalites IA
 
-Modèles : `llama3.2:1b` (~2 Go RAM), `llama3.2` (~4 Go), `llama3.1` (~8 Go, meilleure qualité).
+Modeles : `llama3.2:1b` (~2 Go RAM), `llama3.2` (~4 Go), `llama3.1` (~8 Go, meilleure qualite).
 
 ---
 
-## Commandes de développement
+## Utilisation de l'optimiseur de candidatures
+
+### 1. Creer une candidature
+
+1. Allez dans **Dashboard > Applications**
+2. Cliquez sur **Nouvelle candidature**
+3. Collez le texte de l'offre d'emploi (depuis APEC, HelloWork, LinkedIn, Indeed, ou tout autre site)
+4. L'IA parse automatiquement l'offre et extrait : poste, entreprise, localisation, type de contrat, salaire, competences requises, nice-to-have
+5. Selectionnez un CV existant a lier a cette candidature
+6. Cliquez sur **Creer**
+
+### 2. Analyser votre CV (score ATS)
+
+1. Ouvrez une candidature
+2. Allez dans l'onglet **Analyse IA**
+3. Cliquez sur **Lancer l'analyse**
+4. L'IA compare votre CV avec l'offre et fournit :
+   - **Score global** (0-100) : correspondance mots-cles (50%), structure (25%), completude (25%)
+   - **Mots-cles** : trouves / manquants avec synonymes detectes
+   - **Lacunes** : competences manquantes par gravite (critique, moderee, mineure)
+   - **Suggestions** : reformulations bloc par bloc avec texte original et proposition
+
+### 3. Generer une lettre de motivation
+
+1. Allez dans l'onglet **Lettre de motivation**
+2. Ajoutez des instructions optionnelles (ton formel, mettre en avant telle experience, etc.)
+3. Cliquez sur **Generer**
+4. La lettre est generee avec un ton naturel et humain, sans formules generiques detectables par les filtres anti-IA
+
+### 4. Creer un CV optimise
+
+1. Apres l'analyse ATS, cliquez sur **Creer un CV optimise**
+2. Un duplicata de votre CV est cree avec le nom de l'entreprise en suffixe
+3. Modifiez ce CV dans le builder en suivant les suggestions de l'analyse
+
+### 5. Suivre vos candidatures
+
+L'onglet **Suivi** permet de :
+- Changer le statut (brouillon, postule, entretien, test technique, offre, accepte, refuse, retire)
+- Consulter l'historique des changements de statut
+- Ajouter des notes et contacts
+- Definir la prochaine action et sa date
+
+---
+
+## Commandes de developpement
 
 ```bash
-pnpm dev              # Démarrer le serveur de développement (port 3000)
+pnpm dev              # Demarrer le serveur de developpement (port 3000)
 pnpm build            # Compiler pour la production
-pnpm start            # Démarrer le serveur de production
+pnpm start            # Demarrer le serveur de production
 pnpm lint             # Linter avec Biome
-pnpm typecheck        # Vérification des types TypeScript
-pnpm db:push          # Pousser les changements de schéma
-pnpm db:generate      # Générer les fichiers de migration
-pnpm db:migrate       # Exécuter les migrations
+pnpm typecheck        # Verification des types TypeScript
+pnpm db:push          # Pousser les changements de schema
+pnpm db:generate      # Generer les fichiers de migration
+pnpm db:migrate       # Executer les migrations
 pnpm db:studio        # Ouvrir Drizzle Studio
-pnpm lingui:extract   # Extraire les chaînes i18n
+pnpm lingui:extract   # Extraire les chaines i18n
 ```
 
-## Auto-hébergement avec Docker
+## Auto-hebergement avec Docker
 
 ```bash
 git clone https://github.com/GaspardD78/Customreactiveresume.git
 cd Customreactiveresume
 cp .env.example .env
-# Modifiez .env avec les valeurs de production (vrai AUTH_SECRET, URLs appropriées)
+# Modifiez .env avec les valeurs de production (vrai AUTH_SECRET, URLs appropriees)
 docker compose up -d
 ```
 
@@ -370,9 +426,9 @@ Accessible sur http://localhost:3000.
 
 ## Contribuer
 
-1. Forkez le dépôt
-2. Créez une branche de fonctionnalité (`git checkout -b feature/ma-fonctionnalite`)
-3. Committez vos changements (`git commit -m 'Ajout de ma fonctionnalité'`)
+1. Forkez le depot
+2. Creez une branche de fonctionnalite (`git checkout -b feature/ma-fonctionnalite`)
+3. Committez vos changements (`git commit -m 'Ajout de ma fonctionnalite'`)
 4. Poussez vers la branche (`git push origin feature/ma-fonctionnalite`)
 5. Ouvrez une Pull Request
 
