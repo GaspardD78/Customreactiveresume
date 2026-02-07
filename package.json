@@ -1,6 +1,6 @@
 {
-	"name": "reactive-resume",
-	"description": "Reactive Resume is a free and open-source resume builder that simplifies the process of creating, updating, and sharing your resume.",
+	"name": "reactive-resume-optimiser",
+	"description": "Reactive Resume Optimiser is a free and open-source resume builder that optimizes your job applications with AI-powered analysis.",
 	"version": "5.0.5",
 	"license": "MIT",
 	"type": "module",

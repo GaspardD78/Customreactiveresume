@@ -2,8 +2,6 @@ import { Trans } from "@lingui/react/macro";
 import { motion } from "motion/react";
 import { useMemo } from "react";
 
-const email = "hello@amruthpillai.com";
-
 const testimonials: string[] = [
 	"Great site. Love the interactive interface. You can tell it's designed by someone who wants to use it.",
 
@@ -15,7 +13,7 @@ const testimonials: string[] = [
 
 	" I just wanted to reach you out and thank you personally for your wonderful project rxresu.me. It is very valuable, and the fact that it is open source, makes it all the more meaningful, since there are lots of people who struggle to make their CV look good. For my part, it saved me a lot of time and helped me shape my CV in a very efficient way.",
 
-	"I appreciate your effort in open-sourcing and making it free for everyone to use, it's a great effort. By using this platform, I got a job secured in the government sector of Oman, that too in a ministry. Thank you for providing this platform. Keep going, appreciate the effort. ❤️",
+	"I appreciate your effort in open-sourcing and making it free for everyone to use, it's a great effort. By using this platform, I got a job secured in the government sector of Oman, that too in a ministry. Thank you for providing this platform. Keep going, appreciate the effort.",
 
 	"Your CV generator just saved my day! Thank you so much, great work!",
 
@@ -97,18 +95,8 @@ export function Testimonials() {
 
 				<p className="max-w-4xl text-balance text-muted-foreground leading-relaxed">
 					<Trans>
-						A lot of people have written to me over the years to share their experiences with Reactive Resume and how it
-						has helped them, and I never get tired of reading them. If you have a story to share, let me know by sending
-						me an email at{" "}
-						<a
-							href={`mailto:${email}`}
-							target="_blank"
-							rel="noopener"
-							className="font-medium text-foreground underline underline-offset-2 transition-colors hover:text-primary"
-						>
-							{email}
-						</a>
-						.
+						Here's what our users have to say about their experience with Reactive Resume Optimiser and how it has
+						helped them land their dream jobs.
 					</Trans>
 				</p>
 			</motion.div>

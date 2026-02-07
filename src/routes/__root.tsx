@@ -31,11 +31,11 @@ type RouterContext = {
 	flags: FeatureFlags;
 };
 
-const appName = "Reactive Resume";
-const tagline = "A free and open-source resume builder";
+const appName = "Reactive Resume Optimiser";
+const tagline = "Un constructeur de CV optimisé par l'IA";
 const title = `${appName} — ${tagline}`;
 const description =
-	"Reactive Resume is a free and open-source resume builder that simplifies the process of creating, updating, and sharing your resume.";
+	"Reactive Resume Optimiser est un constructeur de CV gratuit et open-source qui optimise vos candidatures grâce à l'intelligence artificielle.";
 
 await loadLocale(await getLocale());
 

@@ -4,6 +4,7 @@ import { useLingui } from "@lingui/react";
 import { Trans } from "@lingui/react/macro";
 import {
 	BrainIcon,
+	BriefcaseIcon,
 	GearSixIcon,
 	KeyIcon,
 	ReadCvLogoIcon,
@@ -45,6 +46,11 @@ const appSidebarItems = [
 		icon: <ReadCvLogoIcon />,
 		label: msg`Resumes`,
 		href: "/dashboard/resumes",
+	},
+	{
+		icon: <BriefcaseIcon />,
+		label: msg`Applications`,
+		href: "/dashboard/applications",
 	},
 ] as const satisfies SidebarItem[];
 
@@ -117,7 +123,7 @@ export function DashboardSidebar() {
 						<SidebarMenuButton asChild className="h-auto justify-center">
 							<Link to="/">
 								<BrandIcon variant="icon" className="size-6" />
-								<h1 className="sr-only">Reactive Resume</h1>
+								<h1 className="sr-only">Reactive Resume Optimiser</h1>
 							</Link>
 						</SidebarMenuButton>
 					</SidebarMenuItem>

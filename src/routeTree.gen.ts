@@ -28,6 +28,7 @@ import { Route as ApiHealthRouteImport } from "./routes/api/health";
 import { Route as UsernameSlugRouteImport } from "./routes/$username/$slug";
 import { Route as BuilderResumeIdRouteRouteImport } from "./routes/builder/$resumeId/route";
 import { Route as DashboardResumesIndexRouteImport } from "./routes/dashboard/resumes/index";
+import { Route as DashboardApplicationsIndexRouteImport } from "./routes/dashboard/applications/index";
 import { Route as BuilderResumeIdIndexRouteImport } from "./routes/builder/$resumeId/index";
 import { Route as UploadsUserIdSplatRouteImport } from "./routes/uploads/$userId.$";
 import { Route as DashboardSettingsProfileRouteImport } from "./routes/dashboard/settings/profile";
@@ -35,10 +36,12 @@ import { Route as DashboardSettingsPreferencesRouteImport } from "./routes/dashb
 import { Route as DashboardSettingsDangerZoneRouteImport } from "./routes/dashboard/settings/danger-zone";
 import { Route as DashboardSettingsApiKeysRouteImport } from "./routes/dashboard/settings/api-keys";
 import { Route as DashboardSettingsAiRouteImport } from "./routes/dashboard/settings/ai";
+import { Route as DashboardApplicationsCreateRouteImport } from "./routes/dashboard/applications/create";
 import { Route as ApiRpcSplatRouteImport } from "./routes/api/rpc.$";
 import { Route as ApiOpenapiSplatRouteImport } from "./routes/api/openapi.$";
 import { Route as ApiAuthSplatRouteImport } from "./routes/api/auth.$";
 import { Route as DashboardSettingsAuthenticationIndexRouteImport } from "./routes/dashboard/settings/authentication/index";
+import { Route as DashboardApplicationsApplicationIdIndexRouteImport } from "./routes/dashboard/applications/$applicationId/index";
 
 const SchemaDotjsonRoute = SchemaDotjsonRouteImport.update({
   id: "/schema.json",
@@ -134,6 +137,12 @@ const DashboardResumesIndexRoute = DashboardResumesIndexRouteImport.update({
   path: "/resumes/",
   getParentRoute: () => DashboardRouteRoute,
 } as any);
+const DashboardApplicationsIndexRoute =
+  DashboardApplicationsIndexRouteImport.update({
+    id: "/applications/",
+    path: "/applications/",
+    getParentRoute: () => DashboardRouteRoute,
+  } as any);
 const BuilderResumeIdIndexRoute = BuilderResumeIdIndexRouteImport.update({
   id: "/",
   path: "/",
@@ -173,6 +182,12 @@ const DashboardSettingsAiRoute = DashboardSettingsAiRouteImport.update({
   path: "/settings/ai",
   getParentRoute: () => DashboardRouteRoute,
 } as any);
+const DashboardApplicationsCreateRoute =
+  DashboardApplicationsCreateRouteImport.update({
+    id: "/applications/create",
+    path: "/applications/create",
+    getParentRoute: () => DashboardRouteRoute,
+  } as any);
 const ApiRpcSplatRoute = ApiRpcSplatRouteImport.update({
   id: "/api/rpc/$",
   path: "/api/rpc/$",
@@ -192,6 +207,12 @@ const DashboardSettingsAuthenticationIndexRoute =
   DashboardSettingsAuthenticationIndexRouteImport.update({
     id: "/settings/authentication/",
     path: "/settings/authentication/",
+    getParentRoute: () => DashboardRouteRoute,
+  } as any);
+const DashboardApplicationsApplicationIdIndexRoute =
+  DashboardApplicationsApplicationIdIndexRouteImport.update({
+    id: "/applications/$applicationId/",
+    path: "/applications/$applicationId/",
     getParentRoute: () => DashboardRouteRoute,
   } as any);
 
@@ -216,6 +237,7 @@ export interface FileRoutesByFullPath {
   "/api/auth/$": typeof ApiAuthSplatRoute;
   "/api/openapi/$": typeof ApiOpenapiSplatRoute;
   "/api/rpc/$": typeof ApiRpcSplatRoute;
+  "/dashboard/applications/create": typeof DashboardApplicationsCreateRoute;
   "/dashboard/settings/ai": typeof DashboardSettingsAiRoute;
   "/dashboard/settings/api-keys": typeof DashboardSettingsApiKeysRoute;
   "/dashboard/settings/danger-zone": typeof DashboardSettingsDangerZoneRoute;
@@ -223,7 +245,9 @@ export interface FileRoutesByFullPath {
   "/dashboard/settings/profile": typeof DashboardSettingsProfileRoute;
   "/uploads/$userId/$": typeof UploadsUserIdSplatRoute;
   "/builder/$resumeId/": typeof BuilderResumeIdIndexRoute;
+  "/dashboard/applications/": typeof DashboardApplicationsIndexRoute;
   "/dashboard/resumes/": typeof DashboardResumesIndexRoute;
+  "/dashboard/applications/$applicationId/": typeof DashboardApplicationsApplicationIdIndexRoute;
   "/dashboard/settings/authentication/": typeof DashboardSettingsAuthenticationIndexRoute;
 }
 export interface FileRoutesByTo {
@@ -244,6 +268,7 @@ export interface FileRoutesByTo {
   "/api/auth/$": typeof ApiAuthSplatRoute;
   "/api/openapi/$": typeof ApiOpenapiSplatRoute;
   "/api/rpc/$": typeof ApiRpcSplatRoute;
+  "/dashboard/applications/create": typeof DashboardApplicationsCreateRoute;
   "/dashboard/settings/ai": typeof DashboardSettingsAiRoute;
   "/dashboard/settings/api-keys": typeof DashboardSettingsApiKeysRoute;
   "/dashboard/settings/danger-zone": typeof DashboardSettingsDangerZoneRoute;
@@ -251,7 +276,9 @@ export interface FileRoutesByTo {
   "/dashboard/settings/profile": typeof DashboardSettingsProfileRoute;
   "/uploads/$userId/$": typeof UploadsUserIdSplatRoute;
   "/builder/$resumeId": typeof BuilderResumeIdIndexRoute;
+  "/dashboard/applications": typeof DashboardApplicationsIndexRoute;
   "/dashboard/resumes": typeof DashboardResumesIndexRoute;
+  "/dashboard/applications/$applicationId": typeof DashboardApplicationsApplicationIdIndexRoute;
   "/dashboard/settings/authentication": typeof DashboardSettingsAuthenticationIndexRoute;
 }
 export interface FileRoutesById {
@@ -277,6 +304,7 @@ export interface FileRoutesById {
   "/api/auth/$": typeof ApiAuthSplatRoute;
   "/api/openapi/$": typeof ApiOpenapiSplatRoute;
   "/api/rpc/$": typeof ApiRpcSplatRoute;
+  "/dashboard/applications/create": typeof DashboardApplicationsCreateRoute;
   "/dashboard/settings/ai": typeof DashboardSettingsAiRoute;
   "/dashboard/settings/api-keys": typeof DashboardSettingsApiKeysRoute;
   "/dashboard/settings/danger-zone": typeof DashboardSettingsDangerZoneRoute;
@@ -284,7 +312,9 @@ export interface FileRoutesById {
   "/dashboard/settings/profile": typeof DashboardSettingsProfileRoute;
   "/uploads/$userId/$": typeof UploadsUserIdSplatRoute;
   "/builder/$resumeId/": typeof BuilderResumeIdIndexRoute;
+  "/dashboard/applications/": typeof DashboardApplicationsIndexRoute;
   "/dashboard/resumes/": typeof DashboardResumesIndexRoute;
+  "/dashboard/applications/$applicationId/": typeof DashboardApplicationsApplicationIdIndexRoute;
   "/dashboard/settings/authentication/": typeof DashboardSettingsAuthenticationIndexRoute;
 }
 export interface FileRouteTypes {
@@ -310,6 +340,7 @@ export interface FileRouteTypes {
     | "/api/auth/$"
     | "/api/openapi/$"
     | "/api/rpc/$"
+    | "/dashboard/applications/create"
     | "/dashboard/settings/ai"
     | "/dashboard/settings/api-keys"
     | "/dashboard/settings/danger-zone"
@@ -317,7 +348,9 @@ export interface FileRouteTypes {
     | "/dashboard/settings/profile"
     | "/uploads/$userId/$"
     | "/builder/$resumeId/"
+    | "/dashboard/applications/"
     | "/dashboard/resumes/"
+    | "/dashboard/applications/$applicationId/"
     | "/dashboard/settings/authentication/";
   fileRoutesByTo: FileRoutesByTo;
   to:
@@ -338,6 +371,7 @@ export interface FileRouteTypes {
     | "/api/auth/$"
     | "/api/openapi/$"
     | "/api/rpc/$"
+    | "/dashboard/applications/create"
     | "/dashboard/settings/ai"
     | "/dashboard/settings/api-keys"
     | "/dashboard/settings/danger-zone"
@@ -345,7 +379,9 @@ export interface FileRouteTypes {
     | "/dashboard/settings/profile"
     | "/uploads/$userId/$"
     | "/builder/$resumeId"
+    | "/dashboard/applications"
     | "/dashboard/resumes"
+    | "/dashboard/applications/$applicationId"
     | "/dashboard/settings/authentication";
   id:
     | "__root__"
@@ -370,6 +406,7 @@ export interface FileRouteTypes {
     | "/api/auth/$"
     | "/api/openapi/$"
     | "/api/rpc/$"
+    | "/dashboard/applications/create"
     | "/dashboard/settings/ai"
     | "/dashboard/settings/api-keys"
     | "/dashboard/settings/danger-zone"
@@ -377,7 +414,9 @@ export interface FileRouteTypes {
     | "/dashboard/settings/profile"
     | "/uploads/$userId/$"
     | "/builder/$resumeId/"
+    | "/dashboard/applications/"
     | "/dashboard/resumes/"
+    | "/dashboard/applications/$applicationId/"
     | "/dashboard/settings/authentication/";
   fileRoutesById: FileRoutesById;
 }
@@ -531,6 +570,13 @@ declare module "@tanstack/react-router" {
       preLoaderRoute: typeof DashboardResumesIndexRouteImport;
       parentRoute: typeof DashboardRouteRoute;
     };
+    "/dashboard/applications/": {
+      id: "/dashboard/applications/";
+      path: "/applications";
+      fullPath: "/dashboard/applications/";
+      preLoaderRoute: typeof DashboardApplicationsIndexRouteImport;
+      parentRoute: typeof DashboardRouteRoute;
+    };
     "/builder/$resumeId/": {
       id: "/builder/$resumeId/";
       path: "/";
@@ -580,6 +626,13 @@ declare module "@tanstack/react-router" {
       preLoaderRoute: typeof DashboardSettingsAiRouteImport;
       parentRoute: typeof DashboardRouteRoute;
     };
+    "/dashboard/applications/create": {
+      id: "/dashboard/applications/create";
+      path: "/applications/create";
+      fullPath: "/dashboard/applications/create";
+      preLoaderRoute: typeof DashboardApplicationsCreateRouteImport;
+      parentRoute: typeof DashboardRouteRoute;
+    };
     "/api/rpc/$": {
       id: "/api/rpc/$";
       path: "/api/rpc/$";
@@ -606,6 +659,13 @@ declare module "@tanstack/react-router" {
       path: "/settings/authentication";
       fullPath: "/dashboard/settings/authentication/";
       preLoaderRoute: typeof DashboardSettingsAuthenticationIndexRouteImport;
+      parentRoute: typeof DashboardRouteRoute;
+    };
+    "/dashboard/applications/$applicationId/": {
+      id: "/dashboard/applications/$applicationId/";
+      path: "/applications/$applicationId";
+      fullPath: "/dashboard/applications/$applicationId/";
+      preLoaderRoute: typeof DashboardApplicationsApplicationIdIndexRouteImport;
       parentRoute: typeof DashboardRouteRoute;
     };
   }
@@ -651,23 +711,30 @@ const AuthRouteRouteWithChildren = AuthRouteRoute._addFileChildren(
 
 interface DashboardRouteRouteChildren {
   DashboardIndexRoute: typeof DashboardIndexRoute;
+  DashboardApplicationsCreateRoute: typeof DashboardApplicationsCreateRoute;
   DashboardSettingsAiRoute: typeof DashboardSettingsAiRoute;
   DashboardSettingsApiKeysRoute: typeof DashboardSettingsApiKeysRoute;
   DashboardSettingsDangerZoneRoute: typeof DashboardSettingsDangerZoneRoute;
   DashboardSettingsPreferencesRoute: typeof DashboardSettingsPreferencesRoute;
   DashboardSettingsProfileRoute: typeof DashboardSettingsProfileRoute;
+  DashboardApplicationsIndexRoute: typeof DashboardApplicationsIndexRoute;
   DashboardResumesIndexRoute: typeof DashboardResumesIndexRoute;
+  DashboardApplicationsApplicationIdIndexRoute: typeof DashboardApplicationsApplicationIdIndexRoute;
   DashboardSettingsAuthenticationIndexRoute: typeof DashboardSettingsAuthenticationIndexRoute;
 }
 
 const DashboardRouteRouteChildren: DashboardRouteRouteChildren = {
   DashboardIndexRoute: DashboardIndexRoute,
+  DashboardApplicationsCreateRoute: DashboardApplicationsCreateRoute,
   DashboardSettingsAiRoute: DashboardSettingsAiRoute,
   DashboardSettingsApiKeysRoute: DashboardSettingsApiKeysRoute,
   DashboardSettingsDangerZoneRoute: DashboardSettingsDangerZoneRoute,
   DashboardSettingsPreferencesRoute: DashboardSettingsPreferencesRoute,
   DashboardSettingsProfileRoute: DashboardSettingsProfileRoute,
+  DashboardApplicationsIndexRoute: DashboardApplicationsIndexRoute,
   DashboardResumesIndexRoute: DashboardResumesIndexRoute,
+  DashboardApplicationsApplicationIdIndexRoute:
+    DashboardApplicationsApplicationIdIndexRoute,
   DashboardSettingsAuthenticationIndexRoute:
     DashboardSettingsAuthenticationIndexRoute,
 };
