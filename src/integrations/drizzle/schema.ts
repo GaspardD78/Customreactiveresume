@@ -1,4 +1,5 @@
 import * as pg from "drizzle-orm/pg-core";
+import { type ApplicationData, defaultApplicationData } from "@/schema/application/data";
 import { defaultResumeData, type ResumeData } from "@/schema/resume/data";
 import { generateId } from "@/utils/string";
 
@@ -222,6 +223,35 @@ export const resumeStatistics = pg.pgTable(
 			.$onUpdate(() => /* @__PURE__ */ new Date()),
 	},
 	(t) => [pg.index().on(t.resumeId)],
+);
+
+export const jobApplication = pg.pgTable(
+	"job_application",
+	{
+		id: pg
+			.uuid("id")
+			.notNull()
+			.primaryKey()
+			.$defaultFn(() => generateId()),
+		userId: pg
+			.uuid("user_id")
+			.notNull()
+			.references(() => user.id, { onDelete: "cascade" }),
+		resumeId: pg.uuid("resume_id").references(() => resume.id, { onDelete: "set null" }),
+		optimizedResumeId: pg.uuid("optimized_resume_id").references(() => resume.id, { onDelete: "set null" }),
+		data: pg
+			.jsonb("data")
+			.notNull()
+			.$type<ApplicationData>()
+			.$defaultFn(() => defaultApplicationData),
+		createdAt: pg.timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+		updatedAt: pg
+			.timestamp("updated_at", { withTimezone: true })
+			.notNull()
+			.defaultNow()
+			.$onUpdate(() => /* @__PURE__ */ new Date()),
+	},
+	(t) => [pg.index().on(t.userId), pg.index().on(t.resumeId), pg.index().on(t.userId, t.updatedAt.desc())],
 );
 
 export const apikey = pg.pgTable(

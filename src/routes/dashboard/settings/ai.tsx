@@ -204,7 +204,8 @@ function AIForm() {
 					<div className="text-muted-foreground text-sm leading-relaxed">
 						<Trans>
 							Ollama runs locally on your machine. Make sure Ollama is running before testing the connection. To use
-							Llama 3.2, run: <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs">ollama pull llama3.2</code>
+							Llama 3.2, run:{" "}
+							<code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs">ollama pull llama3.2</code>
 						</Trans>
 					</div>
 				</div>

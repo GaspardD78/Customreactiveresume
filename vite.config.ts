@@ -85,9 +85,9 @@ const config = defineConfig({
 				navigateFallback: null, // Disable navigation fallback for SSR
 			},
 			manifest: {
-				name: "Reactive Resume",
-				short_name: "Reactive Resume",
-				description: "A free and open-source resume builder.",
+				name: "Reactive Resume Optimiser",
+				short_name: "RR Optimiser",
+				description: "A free and open-source resume builder powered by AI.",
 				id: "/?source=pwa",
 				start_url: "/?source=pwa",
 				display: "standalone",

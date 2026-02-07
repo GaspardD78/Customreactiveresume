@@ -2,17 +2,26 @@ import { createAnthropic } from "@ai-sdk/anthropic";
 import { createGoogleGenerativeAI } from "@ai-sdk/google";
 import { createGroq } from "@ai-sdk/groq";
 import { createOpenAI } from "@ai-sdk/openai";
-import { createGateway, generateText, Output } from "ai";
+import { createGateway, generateText, Output, type UserContent } from "ai";
 import { createOllama } from "ai-sdk-ollama";
 import mammoth from "mammoth";
 import { PDFParse } from "pdf-parse";
 import { match } from "ts-pattern";
 import type { ZodError } from "zod";
 import z, { flattenError } from "zod";
+import coverLetterSystemPrompt from "@/integrations/ai/prompts/cover-letter-system.md?raw";
+import coverLetterUserPrompt from "@/integrations/ai/prompts/cover-letter-user.md?raw";
 import docxParserSystemPrompt from "@/integrations/ai/prompts/docx-parser-system.md?raw";
 import docxParserUserPrompt from "@/integrations/ai/prompts/docx-parser-user.md?raw";
+import jobOfferParserSystemPrompt from "@/integrations/ai/prompts/job-offer-parser-system.md?raw";
+import jobOfferParserUserPrompt from "@/integrations/ai/prompts/job-offer-parser-user.md?raw";
 import pdfParserSystemPrompt from "@/integrations/ai/prompts/pdf-parser-system.md?raw";
 import pdfParserUserPrompt from "@/integrations/ai/prompts/pdf-parser-user.md?raw";
+import resumeAnalyzerSystemPrompt from "@/integrations/ai/prompts/resume-analyzer-system.md?raw";
+import resumeAnalyzerUserPrompt from "@/integrations/ai/prompts/resume-analyzer-user.md?raw";
+import { extractHtmlFromResponse, parseAIResponse } from "@/integrations/ai/response-parser";
+import { type AtsScore, atsScoreSchema } from "@/schema/application/ats-score";
+import { type JobOffer, jobOfferSchema } from "@/schema/application/job-offer";
 import type { ResumeData } from "@/schema/resume/data";
 import { defaultResumeData, resumeDataSchema } from "@/schema/resume/data";
 
@@ -123,7 +132,7 @@ export async function parsePdf(input: ParsePdfInput): Promise<ResumeData> {
 	const model = getModel(input);
 	const useFileInput = supportsFileInput(input.provider);
 
-	const userContent: Parameters<typeof generateText>[0]["messages"][number]["content"] = useFileInput
+	const userContent: UserContent = useFileInput
 		? [
 				{ type: "text", text: pdfParserUserPrompt },
 				{
@@ -166,7 +175,7 @@ export async function parseDocx(input: ParseDocxInput): Promise<ResumeData> {
 	const model = getModel(input);
 	const useFileInput = supportsFileInput(input.provider);
 
-	const userContent: Parameters<typeof generateText>[0]["messages"][number]["content"] = useFileInput
+	const userContent: UserContent = useFileInput
 		? [
 				{ type: "text", text: docxParserUserPrompt },
 				{
@@ -200,6 +209,87 @@ export async function parseDocx(input: ParseDocxInput): Promise<ResumeData> {
 	});
 }
 
+export type ParseJobOfferInput = z.infer<typeof aiCredentialsSchema> & {
+	rawText: string;
+};
+
+export async function parseJobOffer(input: ParseJobOfferInput): Promise<JobOffer> {
+	const model = getModel(input);
+
+	const userPrompt = jobOfferParserUserPrompt.replace("{{rawText}}", input.rawText);
+
+	const result = await generateText({
+		model,
+		messages: [
+			{ role: "system", content: jobOfferParserSystemPrompt },
+			{ role: "user", content: userPrompt },
+		],
+	});
+
+	const { data } = parseAIResponse(result.text, jobOfferSchema);
+
+	return { ...data, rawText: input.rawText };
+}
+
+export type AnalyzeResumeInput = z.infer<typeof aiCredentialsSchema> & {
+	resumeData: ResumeData;
+	jobOffer: JobOffer;
+};
+
+export async function analyzeResume(input: AnalyzeResumeInput): Promise<AtsScore> {
+	const model = getModel(input);
+
+	const userPrompt = resumeAnalyzerUserPrompt
+		.replace("{{resumeData}}", JSON.stringify(input.resumeData, null, 2))
+		.replace("{{jobOffer}}", JSON.stringify(input.jobOffer, null, 2));
+
+	const systemPrompt = resumeAnalyzerSystemPrompt
+		.replace("{{resumeData}}", JSON.stringify(input.resumeData, null, 2))
+		.replace("{{jobOffer}}", JSON.stringify(input.jobOffer, null, 2));
+
+	const result = await generateText({
+		model,
+		messages: [
+			{ role: "system", content: systemPrompt },
+			{ role: "user", content: userPrompt },
+		],
+	});
+
+	const { data } = parseAIResponse(result.text, atsScoreSchema);
+	return data;
+}
+
+export type GenerateCoverLetterInput = z.infer<typeof aiCredentialsSchema> & {
+	resumeData: ResumeData;
+	jobOffer: JobOffer;
+	instructions?: string;
+};
+
+export async function generateCoverLetter(input: GenerateCoverLetterInput): Promise<string> {
+	const model = getModel(input);
+
+	const userPrompt = coverLetterUserPrompt
+		.replace("{{resumeData}}", JSON.stringify(input.resumeData, null, 2))
+		.replace("{{jobOffer}}", JSON.stringify(input.jobOffer, null, 2))
+		.replace("{{instructions}}", input.instructions ?? "Aucune instruction spécifique.");
+
+	const systemPrompt = coverLetterSystemPrompt
+		.replace("{{resumeData}}", JSON.stringify(input.resumeData, null, 2))
+		.replace("{{jobOffer}}", JSON.stringify(input.jobOffer, null, 2))
+		.replace("{{instructions}}", input.instructions ?? "Aucune instruction spécifique.");
+
+	const result = await generateText({
+		model,
+		messages: [
+			{ role: "system", content: systemPrompt },
+			{ role: "user", content: userPrompt },
+		],
+	});
+
+	const { html } = extractHtmlFromResponse(result.text);
+	return html;
+}
+
 export function formatZodError(error: ZodError): string {
 	return JSON.stringify(flattenError(error));
 }
@@ -208,4 +298,7 @@ export const aiService = {
 	testConnection,
 	parsePdf,
 	parseDocx,
+	parseJobOffer,
+	analyzeResume,
+	generateCoverLetter,
 };
