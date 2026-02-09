@@ -21,7 +21,7 @@
 		"db:pull": "drizzle-kit pull",
 		"db:push": "drizzle-kit push",
 		"db:studio": "drizzle-kit studio",
-		"dev": "vite dev",
+		"dev": "vite dev --force",
 		"preview": "vite preview",
 		"docs:dev": "cd docs && npx mint dev",
 		"knip": "knip",
