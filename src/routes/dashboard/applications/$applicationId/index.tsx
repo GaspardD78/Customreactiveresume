@@ -7,12 +7,15 @@ import {
 	CopyIcon,
 	EnvelopeSimpleIcon,
 	ListChecksIcon,
+	PencilSimpleIcon,
 	SparkleIcon,
+	WarningCircleIcon,
 } from "@phosphor-icons/react";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -20,14 +23,31 @@ import { Textarea } from "@/components/ui/textarea";
 import { useAIStore } from "@/integrations/ai/store";
 import { orpc } from "@/integrations/orpc/client";
 import type { ApplicationData } from "@/schema/application/data";
+import type { JobOffer } from "@/schema/application/job-offer";
 import { DashboardHeader } from "../../-components/header";
 import { AtsScoreGauge } from "../-components/ats-score-gauge";
 import { StatusBadge } from "../-components/status-badge";
 
-// @ts-expect-error - route not yet in generated route tree
 export const Route = createFileRoute("/dashboard/applications/$applicationId/")({
 	component: RouteComponent,
 });
+
+function AIErrorMessage({ error, onDismiss }: { error: string; onDismiss: () => void }) {
+	return (
+		<div className="flex items-start gap-2 rounded-lg border border-red-500/30 bg-red-500/10 p-3 text-red-700 text-sm dark:text-red-400">
+			<WarningCircleIcon className="mt-0.5 size-4 shrink-0" />
+			<div className="flex-1">
+				<p className="font-medium">
+					<Trans>Operation failed</Trans>
+				</p>
+				<p className="mt-0.5 text-xs opacity-80">{error}</p>
+			</div>
+			<button type="button" onClick={onDismiss} className="text-xs opacity-60 hover:opacity-100">
+				&times;
+			</button>
+		</div>
+	);
+}
 
 function RouteComponent() {
 	const { applicationId } = Route.useParams() as { applicationId: string };
@@ -40,6 +60,9 @@ function RouteComponent() {
 	const [isAnalyzing, setIsAnalyzing] = useState(false);
 	const [isGeneratingLetter, setIsGeneratingLetter] = useState(false);
 	const [coverLetterInstructions, setCoverLetterInstructions] = useState("");
+	const [analysisError, setAnalysisError] = useState<string | null>(null);
+	const [coverLetterError, setCoverLetterError] = useState<string | null>(null);
+	const [isEditingOffer, setIsEditingOffer] = useState(false);
 
 	const updateMutation = useMutation(orpc.application.update.mutationOptions({ onSuccess: () => refetch() }));
 	const updateStatusMutation = useMutation(
@@ -57,9 +80,18 @@ function RouteComponent() {
 	const data = application.data as ApplicationData;
 	const { jobOffer, atsScore, coverLetter, status, statusHistory, contacts, notes } = data;
 
+	const handleUpdateJobOffer = (updates: Partial<JobOffer>) => {
+		const updatedData: ApplicationData = {
+			...data,
+			jobOffer: { ...jobOffer, ...updates },
+		};
+		updateMutation.mutate({ id: applicationId, data: updatedData });
+	};
+
 	const handleAnalyzeResume = async () => {
 		if (!application.resumeId || !aiStore.enabled) return;
 		setIsAnalyzing(true);
+		setAnalysisError(null);
 
 		try {
 			const resume = await orpc.resume.getById.call({ id: application.resumeId });
@@ -76,6 +108,8 @@ function RouteComponent() {
 			await updateMutation.mutateAsync({ id: applicationId, data: updatedData });
 		} catch (error) {
 			console.error("Analysis failed:", error);
+			const message = error instanceof Error ? error.message : String(error);
+			setAnalysisError(message);
 		} finally {
 			setIsAnalyzing(false);
 		}
@@ -84,6 +118,7 @@ function RouteComponent() {
 	const handleGenerateCoverLetter = async () => {
 		if (!application.resumeId || !aiStore.enabled) return;
 		setIsGeneratingLetter(true);
+		setCoverLetterError(null);
 
 		try {
 			const resume = await orpc.resume.getById.call({ id: application.resumeId });
@@ -100,6 +135,8 @@ function RouteComponent() {
 			await updateCoverLetterMutation.mutateAsync({ id: applicationId, coverLetter: html });
 		} catch (error) {
 			console.error("Cover letter generation failed:", error);
+			const message = error instanceof Error ? error.message : String(error);
+			setCoverLetterError(message);
 		} finally {
 			setIsGeneratingLetter(false);
 		}
@@ -153,38 +190,92 @@ function RouteComponent() {
 
 				{/* Job Offer Tab */}
 				<TabsContent value="offer" className="space-y-4">
-					<div className="grid grid-cols-2 gap-4 rounded-lg border p-4">
-						<div>
-							<Label className="text-muted-foreground text-xs">
-								<Trans>Position</Trans>
-							</Label>
-							<p className="font-medium">{jobOffer.title || "\u2014"}</p>
-						</div>
-						<div>
-							<Label className="text-muted-foreground text-xs">
-								<Trans>Company</Trans>
-							</Label>
-							<p className="font-medium">{jobOffer.company || "\u2014"}</p>
-						</div>
-						<div>
-							<Label className="text-muted-foreground text-xs">
-								<Trans>Location</Trans>
-							</Label>
-							<p>{jobOffer.location || "\u2014"}</p>
-						</div>
-						<div>
-							<Label className="text-muted-foreground text-xs">
-								<Trans>Contract Type</Trans>
-							</Label>
-							<p>{jobOffer.contractType || "\u2014"}</p>
-						</div>
-						<div>
-							<Label className="text-muted-foreground text-xs">
-								<Trans>Salary</Trans>
-							</Label>
-							<p>{jobOffer.salary || "\u2014"}</p>
-						</div>
+					<div className="flex items-center justify-between">
+						<Label className="font-medium text-sm">
+							<Trans>Job Details</Trans>
+						</Label>
+						<Button variant="ghost" size="sm" onClick={() => setIsEditingOffer(!isEditingOffer)}>
+							<PencilSimpleIcon className="size-4" />
+							{isEditingOffer ? <Trans>Done</Trans> : <Trans>Edit</Trans>}
+						</Button>
 					</div>
+
+					{isEditingOffer ? (
+						<div className="grid grid-cols-2 gap-4 rounded-lg border p-4">
+							<div className="space-y-1">
+								<Label className="text-muted-foreground text-xs">
+									<Trans>Position</Trans>
+								</Label>
+								<Input value={jobOffer.title} onChange={(e) => handleUpdateJobOffer({ title: e.target.value })} />
+							</div>
+							<div className="space-y-1">
+								<Label className="text-muted-foreground text-xs">
+									<Trans>Company</Trans>
+								</Label>
+								<Input value={jobOffer.company} onChange={(e) => handleUpdateJobOffer({ company: e.target.value })} />
+							</div>
+							<div className="space-y-1">
+								<Label className="text-muted-foreground text-xs">
+									<Trans>Location</Trans>
+								</Label>
+								<Input
+									value={jobOffer.location ?? ""}
+									onChange={(e) => handleUpdateJobOffer({ location: e.target.value || null })}
+								/>
+							</div>
+							<div className="space-y-1">
+								<Label className="text-muted-foreground text-xs">
+									<Trans>Contract Type</Trans>
+								</Label>
+								<Input
+									value={jobOffer.contractType ?? ""}
+									onChange={(e) => handleUpdateJobOffer({ contractType: e.target.value || null })}
+								/>
+							</div>
+							<div className="space-y-1">
+								<Label className="text-muted-foreground text-xs">
+									<Trans>Salary</Trans>
+								</Label>
+								<Input
+									value={jobOffer.salary ?? ""}
+									onChange={(e) => handleUpdateJobOffer({ salary: e.target.value || null })}
+								/>
+							</div>
+						</div>
+					) : (
+						<div className="grid grid-cols-2 gap-4 rounded-lg border p-4">
+							<div>
+								<Label className="text-muted-foreground text-xs">
+									<Trans>Position</Trans>
+								</Label>
+								<p className="font-medium">{jobOffer.title || "\u2014"}</p>
+							</div>
+							<div>
+								<Label className="text-muted-foreground text-xs">
+									<Trans>Company</Trans>
+								</Label>
+								<p className="font-medium">{jobOffer.company || "\u2014"}</p>
+							</div>
+							<div>
+								<Label className="text-muted-foreground text-xs">
+									<Trans>Location</Trans>
+								</Label>
+								<p>{jobOffer.location || "\u2014"}</p>
+							</div>
+							<div>
+								<Label className="text-muted-foreground text-xs">
+									<Trans>Contract Type</Trans>
+								</Label>
+								<p>{jobOffer.contractType || "\u2014"}</p>
+							</div>
+							<div>
+								<Label className="text-muted-foreground text-xs">
+									<Trans>Salary</Trans>
+								</Label>
+								<p>{jobOffer.salary || "\u2014"}</p>
+							</div>
+						</div>
+					)}
 
 					{jobOffer.hardSkills.length > 0 && (
 						<div className="space-y-2">
@@ -261,6 +352,8 @@ function RouteComponent() {
 									</Button>
 								)}
 							</div>
+
+							{analysisError && <AIErrorMessage error={analysisError} onDismiss={() => setAnalysisError(null)} />}
 
 							{atsScore && (
 								<div className="space-y-6">
@@ -409,6 +502,10 @@ function RouteComponent() {
 								)}
 							</Button>
 
+							{coverLetterError && (
+								<AIErrorMessage error={coverLetterError} onDismiss={() => setCoverLetterError(null)} />
+							)}
+
 							{coverLetter && (
 								<div className="space-y-2">
 									<Label className="text-sm">
@@ -502,7 +599,10 @@ function RouteComponent() {
 								rows={2}
 								value={data.nextAction ?? ""}
 								onChange={(e) => {
-									const updatedData: ApplicationData = { ...data, nextAction: e.target.value };
+									const updatedData: ApplicationData = {
+										...data,
+										nextAction: e.target.value,
+									};
 									updateMutation.mutate({ id: applicationId, data: updatedData });
 								}}
 								placeholder={t`e.g., Prepare for technical interview...`}
@@ -516,7 +616,10 @@ function RouteComponent() {
 								type="date"
 								value={data.nextActionDate ?? ""}
 								onChange={(e) => {
-									const updatedData: ApplicationData = { ...data, nextActionDate: e.target.value };
+									const updatedData: ApplicationData = {
+										...data,
+										nextActionDate: e.target.value,
+									};
 									updateMutation.mutate({ id: applicationId, data: updatedData });
 								}}
 								className="flex h-9 w-full rounded-md border bg-transparent px-3 py-1 text-sm shadow-sm"

@@ -239,13 +239,18 @@ export type AnalyzeResumeInput = z.infer<typeof aiCredentialsSchema> & {
 export async function analyzeResume(input: AnalyzeResumeInput): Promise<AtsScore> {
 	const model = getModel(input);
 
-	const userPrompt = resumeAnalyzerUserPrompt
-		.replace("{{resumeData}}", JSON.stringify(input.resumeData, null, 2))
-		.replace("{{jobOffer}}", JSON.stringify(input.jobOffer, null, 2));
+	const resumeDataJson = JSON.stringify(input.resumeData, null, 2);
+	const jobOfferJson = JSON.stringify(input.jobOffer, null, 2);
 
+	const userPrompt = resumeAnalyzerUserPrompt
+		.replace("{{resumeData}}", resumeDataJson)
+		.replace("{{jobOffer}}", jobOfferJson);
+
+	// Strip data placeholders from system prompt to avoid duplicating large payloads.
+	// The system prompt describes the format; the actual data is sent in the user message.
 	const systemPrompt = resumeAnalyzerSystemPrompt
-		.replace("{{resumeData}}", JSON.stringify(input.resumeData, null, 2))
-		.replace("{{jobOffer}}", JSON.stringify(input.jobOffer, null, 2));
+		.replace("{{resumeData}}", "(provided in the user message)")
+		.replace("{{jobOffer}}", "(provided in the user message)");
 
 	const result = await generateText({
 		model,
@@ -268,15 +273,21 @@ export type GenerateCoverLetterInput = z.infer<typeof aiCredentialsSchema> & {
 export async function generateCoverLetter(input: GenerateCoverLetterInput): Promise<string> {
 	const model = getModel(input);
 
-	const userPrompt = coverLetterUserPrompt
-		.replace("{{resumeData}}", JSON.stringify(input.resumeData, null, 2))
-		.replace("{{jobOffer}}", JSON.stringify(input.jobOffer, null, 2))
-		.replace("{{instructions}}", input.instructions ?? "Aucune instruction spécifique.");
+	const resumeDataJson = JSON.stringify(input.resumeData, null, 2);
+	const jobOfferJson = JSON.stringify(input.jobOffer, null, 2);
+	const instructions = input.instructions ?? "Aucune instruction spécifique.";
 
+	const userPrompt = coverLetterUserPrompt
+		.replace("{{resumeData}}", resumeDataJson)
+		.replace("{{jobOffer}}", jobOfferJson)
+		.replace("{{instructions}}", instructions);
+
+	// Strip data placeholders from system prompt to avoid duplicating large payloads.
+	// The system prompt describes the format; the actual data is sent in the user message.
 	const systemPrompt = coverLetterSystemPrompt
-		.replace("{{resumeData}}", JSON.stringify(input.resumeData, null, 2))
-		.replace("{{jobOffer}}", JSON.stringify(input.jobOffer, null, 2))
-		.replace("{{instructions}}", input.instructions ?? "Aucune instruction spécifique.");
+		.replace("{{resumeData}}", "(provided in the user message)")
+		.replace("{{jobOffer}}", "(provided in the user message)")
+		.replace("{{instructions}}", "(provided in the user message)");
 
 	const result = await generateText({
 		model,

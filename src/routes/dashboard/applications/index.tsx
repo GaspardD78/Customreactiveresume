@@ -10,7 +10,6 @@ import type { ApplicationData } from "@/schema/application/data";
 import { DashboardHeader } from "../-components/header";
 import { ApplicationCard } from "./-components/application-card";
 
-// @ts-expect-error - route not yet in generated route tree
 export const Route = createFileRoute("/dashboard/applications/")({
 	component: RouteComponent,
 });
