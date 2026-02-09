@@ -6,6 +6,26 @@ import { resumeDataSchema } from "@/schema/resume/data";
 import { protectedProcedure } from "../context";
 import { aiCredentialsSchema, aiProviderSchema, aiService, fileInputSchema, formatZodError } from "../services/ai";
 
+/**
+ * Wraps any error into an ORPCError with a meaningful message.
+ * - AISDKError → BAD_GATEWAY with the provider's error message
+ * - ZodError → BAD_REQUEST with validation details
+ * - Other errors → BAD_GATEWAY with the original message preserved
+ */
+function handleAIError(error: unknown): never {
+	if (error instanceof AISDKError) {
+		throw new ORPCError("BAD_GATEWAY", { message: error.message });
+	}
+
+	if (error instanceof ZodError) {
+		throw new ORPCError("BAD_REQUEST", { message: `Validation error: ${formatZodError(error)}` });
+	}
+
+	// Network errors (fetch failed, DNS, timeout, etc.) and any other errors
+	const message = error instanceof Error ? error.message : String(error);
+	throw new ORPCError("BAD_GATEWAY", { message: `AI provider error: ${message}` });
+}
+
 export const aiRouter = {
 	testConnection: protectedProcedure
 		.input(
@@ -20,11 +40,7 @@ export const aiRouter = {
 			try {
 				return await aiService.testConnection(input);
 			} catch (error) {
-				if (error instanceof AISDKError) {
-					throw new ORPCError("BAD_GATEWAY", { message: error.message });
-				}
-
-				throw error;
+				handleAIError(error);
 			}
 		}),
 
@@ -39,14 +55,7 @@ export const aiRouter = {
 			try {
 				return await aiService.parsePdf(input);
 			} catch (error) {
-				if (error instanceof AISDKError) {
-					throw new ORPCError("BAD_GATEWAY", { message: error.message });
-				}
-
-				if (error instanceof ZodError) {
-					throw new Error(formatZodError(error));
-				}
-				throw error;
+				handleAIError(error);
 			}
 		}),
 
@@ -65,15 +74,7 @@ export const aiRouter = {
 			try {
 				return await aiService.parseDocx(input);
 			} catch (error) {
-				if (error instanceof AISDKError) {
-					throw new ORPCError("BAD_GATEWAY", { message: error.message });
-				}
-
-				if (error instanceof ZodError) {
-					throw new Error(formatZodError(error));
-				}
-
-				throw error;
+				handleAIError(error);
 			}
 		}),
 
@@ -88,15 +89,7 @@ export const aiRouter = {
 			try {
 				return await aiService.parseJobOffer(input);
 			} catch (error) {
-				if (error instanceof AISDKError) {
-					throw new ORPCError("BAD_GATEWAY", { message: error.message });
-				}
-
-				if (error instanceof ZodError) {
-					throw new Error(formatZodError(error));
-				}
-
-				throw error;
+				handleAIError(error);
 			}
 		}),
 
@@ -112,15 +105,7 @@ export const aiRouter = {
 			try {
 				return await aiService.analyzeResume(input);
 			} catch (error) {
-				if (error instanceof AISDKError) {
-					throw new ORPCError("BAD_GATEWAY", { message: error.message });
-				}
-
-				if (error instanceof ZodError) {
-					throw new Error(formatZodError(error));
-				}
-
-				throw error;
+				handleAIError(error);
 			}
 		}),
 
@@ -137,15 +122,7 @@ export const aiRouter = {
 			try {
 				return await aiService.generateCoverLetter(input);
 			} catch (error) {
-				if (error instanceof AISDKError) {
-					throw new ORPCError("BAD_GATEWAY", { message: error.message });
-				}
-
-				if (error instanceof ZodError) {
-					throw new Error(formatZodError(error));
-				}
-
-				throw error;
+				handleAIError(error);
 			}
 		}),
 };
