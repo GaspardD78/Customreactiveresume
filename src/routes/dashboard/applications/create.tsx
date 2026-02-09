@@ -1,11 +1,12 @@
 import { t } from "@lingui/core/macro";
 import { Trans } from "@lingui/react/macro";
-import { BriefcaseIcon, MagicWandIcon, SparkleIcon } from "@phosphor-icons/react";
+import { BriefcaseIcon, MagicWandIcon, SparkleIcon, WarningCircleIcon } from "@phosphor-icons/react";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Combobox } from "@/components/ui/combobox";
+import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { Textarea } from "@/components/ui/textarea";
@@ -16,7 +17,6 @@ import type { JobOffer } from "@/schema/application/job-offer";
 import { defaultJobOffer } from "@/schema/application/job-offer";
 import { DashboardHeader } from "../-components/header";
 
-// @ts-expect-error - route not yet in generated route tree
 export const Route = createFileRoute("/dashboard/applications/create")({
 	component: RouteComponent,
 });
@@ -30,6 +30,7 @@ function RouteComponent() {
 	const [selectedResumeId, setSelectedResumeId] = useState<string>("");
 	const [isParsing, setIsParsing] = useState(false);
 	const [isParsed, setIsParsed] = useState(false);
+	const [parseError, setParseError] = useState<string | null>(null);
 
 	const { data: resumes } = useQuery(orpc.resume.list.queryOptions({ input: {} }));
 
@@ -48,6 +49,7 @@ function RouteComponent() {
 	const handleParseWithAI = async () => {
 		if (!rawText.trim() || !aiStore.enabled) return;
 		setIsParsing(true);
+		setParseError(null);
 
 		try {
 			const parsed = await orpc.ai.parseJobOffer.call({
@@ -61,6 +63,8 @@ function RouteComponent() {
 			setIsParsed(true);
 		} catch (error) {
 			console.error("Failed to parse job offer:", error);
+			const message = error instanceof Error ? error.message : String(error);
+			setParseError(message);
 		} finally {
 			setIsParsing(false);
 		}
@@ -114,61 +118,102 @@ function RouteComponent() {
 						<Trans>Configure an AI provider in Settings to enable automatic parsing.</Trans>
 					</p>
 				)}
-			</div>
-
-			{/* Step 2: Review parsed data */}
-			{isParsed && (
-				<div className="space-y-3 rounded-lg border bg-card p-4">
-					<h3 className="flex items-center gap-2 font-medium">
-						<MagicWandIcon className="size-4" />
-						<Trans>Extracted Information</Trans>
-					</h3>
-
-					<div className="grid grid-cols-2 gap-3 text-sm">
+				{parseError && (
+					<div className="flex items-start gap-2 rounded-lg border border-red-500/30 bg-red-500/10 p-3 text-red-700 text-sm dark:text-red-400">
+						<WarningCircleIcon className="mt-0.5 size-4 shrink-0" />
 						<div>
-							<span className="text-muted-foreground">
-								<Trans>Position</Trans>:
-							</span>
-							<p className="font-medium">{jobOffer.title || "\u2014"}</p>
-						</div>
-						<div>
-							<span className="text-muted-foreground">
-								<Trans>Company</Trans>:
-							</span>
-							<p className="font-medium">{jobOffer.company || "\u2014"}</p>
-						</div>
-						<div>
-							<span className="text-muted-foreground">
-								<Trans>Location</Trans>:
-							</span>
-							<p className="font-medium">{jobOffer.location || "\u2014"}</p>
-						</div>
-						<div>
-							<span className="text-muted-foreground">
-								<Trans>Contract</Trans>:
-							</span>
-							<p className="font-medium">{jobOffer.contractType || "\u2014"}</p>
-						</div>
-						<div>
-							<span className="text-muted-foreground">
-								<Trans>Salary</Trans>:
-							</span>
-							<p className="font-medium">{jobOffer.salary || "\u2014"}</p>
-						</div>
-						<div>
-							<span className="text-muted-foreground">
-								<Trans>Skills</Trans>:
-							</span>
-							<p className="font-medium">{jobOffer.hardSkills?.join(", ") || "\u2014"}</p>
+							<p className="font-medium">
+								<Trans>AI parsing failed</Trans>
+							</p>
+							<p className="mt-0.5 text-xs opacity-80">{parseError}</p>
+							<p className="mt-1 text-xs">
+								<Trans>You can fill in the fields manually below.</Trans>
+							</p>
 						</div>
 					</div>
+				)}
+			</div>
+
+			{/* Step 2: Application details (always editable) */}
+			<div className="space-y-3">
+				<Label className="font-medium text-base">
+					<Trans>Step 2: Application details</Trans>
+				</Label>
+
+				{isParsed && (
+					<div className="flex items-center gap-2 text-green-700 text-sm dark:text-green-400">
+						<MagicWandIcon className="size-4" />
+						<Trans>Fields pre-filled by AI. You can edit them.</Trans>
+					</div>
+				)}
+
+				<div className="grid grid-cols-2 gap-3">
+					<div className="space-y-1">
+						<Label className="text-muted-foreground text-xs">
+							<Trans>Position</Trans>
+						</Label>
+						<Input
+							value={jobOffer.title}
+							onChange={(e) => setJobOffer((prev) => ({ ...prev, title: e.target.value }))}
+							placeholder={t`e.g., Senior Developer`}
+						/>
+					</div>
+					<div className="space-y-1">
+						<Label className="text-muted-foreground text-xs">
+							<Trans>Company</Trans>
+						</Label>
+						<Input
+							value={jobOffer.company}
+							onChange={(e) => setJobOffer((prev) => ({ ...prev, company: e.target.value }))}
+							placeholder={t`e.g., Acme Corp`}
+						/>
+					</div>
+					<div className="space-y-1">
+						<Label className="text-muted-foreground text-xs">
+							<Trans>Location</Trans>
+						</Label>
+						<Input
+							value={jobOffer.location ?? ""}
+							onChange={(e) => setJobOffer((prev) => ({ ...prev, location: e.target.value || null }))}
+							placeholder={t`e.g., Paris, France`}
+						/>
+					</div>
+					<div className="space-y-1">
+						<Label className="text-muted-foreground text-xs">
+							<Trans>Contract Type</Trans>
+						</Label>
+						<Input
+							value={jobOffer.contractType ?? ""}
+							onChange={(e) => setJobOffer((prev) => ({ ...prev, contractType: e.target.value || null }))}
+							placeholder={t`e.g., CDI, CDD, Freelance`}
+						/>
+					</div>
+					<div className="space-y-1">
+						<Label className="text-muted-foreground text-xs">
+							<Trans>Salary</Trans>
+						</Label>
+						<Input
+							value={jobOffer.salary ?? ""}
+							onChange={(e) => setJobOffer((prev) => ({ ...prev, salary: e.target.value || null }))}
+							placeholder={t`e.g., 50-60k`}
+						/>
+					</div>
 				</div>
-			)}
+
+				{isParsed && jobOffer.hardSkills.length > 0 && (
+					<div className="space-y-1">
+						<Label className="text-muted-foreground text-xs">
+							<Trans>Skills</Trans>
+						</Label>
+						<p className="text-sm">{jobOffer.hardSkills.join(", ")}</p>
+					</div>
+				)}
+			</div>
 
 			{/* Step 3: Link a resume */}
 			<div className="space-y-3">
 				<Label className="font-medium text-base">
-					<Trans>Step 2: Link a resume</Trans>
+					<Trans>Step 3: Link a resume</Trans>
 				</Label>
 				<Combobox
 					value={selectedResumeId}
@@ -187,7 +232,7 @@ function RouteComponent() {
 				<Button variant="outline" onClick={() => navigate({ to: "/dashboard/applications" as string })}>
 					<Trans>Cancel</Trans>
 				</Button>
-				<Button onClick={handleCreate} disabled={createMutation.isPending}>
+				<Button onClick={handleCreate} disabled={createMutation.isPending || (!jobOffer.title && !jobOffer.company)}>
 					<BriefcaseIcon className="size-4" />
 					<Trans>Create Application</Trans>
 				</Button>
