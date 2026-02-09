@@ -29,6 +29,24 @@ export const aiProviderSchema = z.enum(["ollama", "openai", "gemini", "anthropic
 
 export type AIProvider = z.infer<typeof aiProviderSchema>;
 
+/**
+ * Strips visual/styling data from ResumeData before sending to AI.
+ * Removes metadata (template, layout, CSS, design, typography) and picture styling,
+ * keeping only content-relevant fields to reduce token usage significantly.
+ */
+function stripResumeForAI(resumeData: ResumeData): Record<string, unknown> {
+	return {
+		basics: resumeData.basics,
+		summary: { title: resumeData.summary.title, content: resumeData.summary.content },
+		sections: resumeData.sections,
+		customSections: resumeData.customSections,
+		metadata: {
+			notes: resumeData.metadata.notes,
+			locale: resumeData.metadata.page.locale,
+		},
+	};
+}
+
 export type GetModelInput = {
 	provider: AIProvider;
 	model: string;
@@ -239,7 +257,7 @@ export type AnalyzeResumeInput = z.infer<typeof aiCredentialsSchema> & {
 export async function analyzeResume(input: AnalyzeResumeInput): Promise<AtsScore> {
 	const model = getModel(input);
 
-	const resumeDataJson = JSON.stringify(input.resumeData, null, 2);
+	const resumeDataJson = JSON.stringify(stripResumeForAI(input.resumeData), null, 2);
 	const jobOfferJson = JSON.stringify(input.jobOffer, null, 2);
 
 	const userPrompt = resumeAnalyzerUserPrompt
@@ -273,7 +291,7 @@ export type GenerateCoverLetterInput = z.infer<typeof aiCredentialsSchema> & {
 export async function generateCoverLetter(input: GenerateCoverLetterInput): Promise<string> {
 	const model = getModel(input);
 
-	const resumeDataJson = JSON.stringify(input.resumeData, null, 2);
+	const resumeDataJson = JSON.stringify(stripResumeForAI(input.resumeData), null, 2);
 	const jobOfferJson = JSON.stringify(input.jobOffer, null, 2);
 	const instructions = input.instructions ?? "Aucune instruction spécifique.";
 
