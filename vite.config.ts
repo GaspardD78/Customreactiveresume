@@ -38,6 +38,7 @@ const config = defineConfig({
 			"@tanstack/react-start/client",
 			"@tanstack/react-start/server",
 			"@tanstack/start-server-core",
+			"clsx",
 		],
 	},
 
