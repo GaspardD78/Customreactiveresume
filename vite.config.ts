@@ -41,6 +41,8 @@ const config = defineConfig({
 			"@better-auth/core",
 			"better-auth",
 			"clsx",
+			"react",
+			"react-dom",
 		],
 	},
 
